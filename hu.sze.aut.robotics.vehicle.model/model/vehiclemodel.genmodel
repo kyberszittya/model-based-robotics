@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/hu.sze.aut.robotics.vehicle.model/src-gen" creationIcons="false"
+    editDirectory="/hu.sze.aut.robotics.vehicle.model.edit/src-gen" editorDirectory="/hu.sze.aut.robotics.vehicle.model.editor/src-gen"
+    modelPluginID="hu.sze.aut.robotics.vehicle.model" modelName="Vehiclemodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>vehiclemodel.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Vehiclemodel" basePackage="hu.sze.aut.robotics.vehicle.model"
+      disposableProviderFactory="true" ecorePackage="vehiclemodel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="vehiclemodel.ecore#//AxisType">
+      <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/NoSteer"/>
+      <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/AckermannSteer"/>
+      <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/Independent"/>
+    </genEnums>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Vehicle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Vehicle/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/axis"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/wheelparameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/sensor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/physicalparameter"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Wheel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Wheel/wheelparameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Wheel/transmission_ratio"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Wheel/pose"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//WheelParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//WheelParameter/radius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//WheelParameter/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//WheelParameter/name"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Axis">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Axis/length"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Axis/radius"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Axis/drive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Axis/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Axis/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Axis/driven"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Axis/pose"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Sensor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Sensor/name"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Drive">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Drive/wheel"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//LiDAR"/>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Camera"/>
+    <genClasses ecoreClass="vehiclemodel.ecore#//PhysicalParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//PhysicalParameter/baselength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//PhysicalParameter/mass"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Displacement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Displacement/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Displacement/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Displacement/z"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Pose">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Pose/displacement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Pose/rotation"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Rotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Rotation/roll"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Rotation/pitch"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Rotation/yaw"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

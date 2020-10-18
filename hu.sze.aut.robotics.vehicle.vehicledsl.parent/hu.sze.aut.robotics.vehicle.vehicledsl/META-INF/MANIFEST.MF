@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: hu.sze.aut.robotics.vehicle.vehicledsl
+Bundle-ManifestVersion: 2
+Bundle-Name: hu.sze.aut.robotics.vehicle.vehicledsl
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: hu.sze.aut.robotics.vehicle.vehicledsl; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: hu.sze.aut.robotics.vehicle.model,
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: hu.sze.aut.robotics.vehicle.validation,
+ hu.sze.aut.robotics.vehicle.scoping,
+ hu.sze.aut.robotics.vehicle,
+ hu.sze.aut.robotics.vehicle.generator,
+ hu.sze.aut.robotics.vehicle.services,
+ hu.sze.aut.robotics.vehicle.serializer,
+ hu.sze.aut.robotics.vehicle.parser.antlr.internal,
+ hu.sze.aut.robotics.vehicle.parser.antlr,
+ hu.sze.aut.robotics.vehicle.formatting2
+Import-Package: org.apache.log4j
