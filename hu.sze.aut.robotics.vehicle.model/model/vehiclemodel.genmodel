@@ -15,12 +15,15 @@
       <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/AckermannSteer"/>
       <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/Independent"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="vehiclemodel.ecore#//CameraColorFormat">
+      <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//CameraColorFormat/GrayScale"/>
+      <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//CameraColorFormat/Color"/>
+    </genEnums>
     <genClasses ecoreClass="vehiclemodel.ecore#//Vehicle">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Vehicle/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/axis"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/axes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/wheelparameters"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/sensor"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/physicalparameter"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/sensorplacement"/>
     </genClasses>
     <genClasses ecoreClass="vehiclemodel.ecore#//Wheel">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Wheel/wheelparameters"/>
@@ -43,12 +46,25 @@
     </genClasses>
     <genClasses ecoreClass="vehiclemodel.ecore#//Sensor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Sensor/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Sensor/frequency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Sensor/frame"/>
     </genClasses>
     <genClasses ecoreClass="vehiclemodel.ecore#//Drive">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Drive/wheel"/>
     </genClasses>
-    <genClasses ecoreClass="vehiclemodel.ecore#//LiDAR"/>
-    <genClasses ecoreClass="vehiclemodel.ecore#//Camera"/>
+    <genClasses ecoreClass="vehiclemodel.ecore#//LiDAR">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//LiDAR/min_distance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//LiDAR/max_distance"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Camera">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/field_of_view"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/quality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/min_distance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/max_distance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/color_format"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/image_width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Camera/image_height"/>
+    </genClasses>
     <genClasses ecoreClass="vehiclemodel.ecore#//PhysicalParameter">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//PhysicalParameter/baselength"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//PhysicalParameter/mass"/>
@@ -66,6 +82,23 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Rotation/roll"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Rotation/pitch"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//Rotation/yaw"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//SensorPlacement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//SensorPlacement/sensor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//SensorPlacement/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//SensorPlacement/pose"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//IMU"/>
+    <genClasses ecoreClass="vehiclemodel.ecore#//GPS"/>
+    <genClasses ecoreClass="vehiclemodel.ecore#//LaserScanner"/>
+    <genClasses ecoreClass="vehiclemodel.ecore#//StereoCamera">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//StereoCamera/baseline"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//Catalogue">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Catalogue/sensor"/>
+    </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//RootElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//RootElement/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

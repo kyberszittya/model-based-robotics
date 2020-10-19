@@ -4,15 +4,33 @@ grammar hu.sze.aut.robotics.vehicle.VehicleDsl with org.eclipse.xtext.common.Ter
 import "http://aut.sze.hu/vehiclemodel" 
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
+EntryPoint returns RootElement:
+	Vehicle | Catalogue
+;
+
+Catalogue returns Catalogue:
+	{Catalogue}
+	'catalogue' name=EString
+	('sensor' 
+	'{' 
+		sensor+=Sensor 
+		(sensor+=Sensor)* 
+	'}' )?
+;
+
 Vehicle returns Vehicle:
 	{Vehicle}
-	'Vehicle'
+	'vehicle'
 	name=EString
 	'{'
-		('axis' '{' axis+=Axis ( "," axis+=Axis)* '}' )?
-		('wheelparameters' '{' wheelparameters+=WheelParameter ( "," wheelparameters+=WheelParameter)* '}' )?
-		('sensor' '{' sensor+=Sensor ( "," sensor+=Sensor)* '}' )?
-		('physicalparameter' '{' physicalparameter+=PhysicalParameter ( "," physicalparameter+=PhysicalParameter)* '}' )?
+		('axes' 
+		'{' 
+			axes+=Axis 
+			(axes+=Axis)* 
+		'}' )?
+		(wheelparameters=WheelParameter)
+		
+		(physicalparameter=PhysicalParameter)
 	'}';
 
 
@@ -22,30 +40,27 @@ Sensor returns Sensor:
 
 
 
-
-
-
-
 EString returns ecore::EString:
 	STRING | ID;
 
 Axis returns Axis:
-	{Axis}
-	(driven?='driven')?
-	'Axis'
-	name=EString
+	{Axis}	
+	(driven?='driven')? 'axis' name=EString ':' type=AxisType 
 	'{'
 		('length' length=EDouble)?
-		('radius' radius=EDouble)?
-		('type' type=AxisType)?
-		('drive' '{' drive+=Drive ( "," drive+=Drive)* '}' )?
-		('pose' pose=Pose)?
+		('radius' radius=EDouble)?		
+		(pose=Pose)
+		('drive' 
+		'{' 
+			drive+=Drive 
+			(drive+=Drive)* 
+		'}' )?
+		
 	'}';
 
 WheelParameter returns WheelParameter:
 	{WheelParameter}
-	'WheelParameter'
-	name=EString
+	'wheelparameter' name=EString
 	'{'
 		('radius' radius=EDouble)?
 		('width' width=EDouble)?
@@ -53,7 +68,7 @@ WheelParameter returns WheelParameter:
 
 PhysicalParameter returns PhysicalParameter:
 	{PhysicalParameter}
-	'PhysicalParameter'
+	'physicalparameter'
 	'{'
 		('baselength' baselength=EDouble)?
 		('mass' mass=EDouble)?
@@ -77,7 +92,7 @@ EBoolean returns ecore::EBoolean:
 
 Pose returns Pose:
 	{Pose}
-	'Pose'
+	'pose'
 	'{'
 		('displacement' displacement=Displacement)?
 		('rotation' rotation=Rotation)?
@@ -93,29 +108,55 @@ Wheel returns Wheel:
 	'}';
 
 Displacement returns Displacement:
-	{Displacement}
-	'Displacement'
-	'{'
-		('x' x=EDouble)?
-		('y' y=EDouble)?
-		('z' z=EDouble)?
-	'}';
+	{Displacement}	
+	('x'':' x=EDouble)','
+	('y'':' y=EDouble)','
+	('z'':' z=EDouble);
 
 Rotation returns Rotation:
 	{Rotation}
-	'Rotation'
-	'{'
-		('roll' roll=EDouble)?
-		('pitch' pitch=EDouble)?
-		('yaw' yaw=EDouble)?
-	'}';
+	('roll'':' roll=EDouble)','
+	('pitch'':' pitch=EDouble)','
+	('yaw'':' yaw=EDouble);
 
 LiDAR returns LiDAR:
 	{LiDAR}
-	'LiDAR'
-	name=EString;
+	'LiDAR'	name=EString':' 'freq' frequency=EDouble 'in' 'frame' frame=EString
+	'{'
+		'min_distance' ':' min_distance=EDouble
+		'max_distance' ':' max_distance=EDouble
+	'}'
+	;
+
+EInt returns ecore::EInt:
+	'-'? INT;
+	
+enum CameraColorFormat returns CameraColorFormat:
+	Color='color' | GrayScale='gray'
+;
 
 Camera returns Camera:
 	{Camera}
-	'Camera'
-	name=EString;
+	'monocamera' name=EString':' 'freq' frequency=EDouble 'in' 'frame' frame=EString
+	'{'
+		'fov'':' field_of_view=EDouble
+		'quality' ':' quality=EInt		
+		'min_distance' ':' min_distance=EDouble
+		'max_distance' ':' max_distance=EDouble
+		'color_format' ':' color_format=CameraColorFormat
+		'image_width' ':' image_width=EInt
+		'image_height' ':' image_height=EInt
+	'}';
+
+StereoCamera returns StereoCamera:
+	{StereoCamera}
+	'stereocamera' name=EString':' 'freq' frequency=EDouble 'in' 'frame' frame=EString
+	'{'
+		'fov'':' field_of_view=EDouble
+		'quality' ':' quality=EInt		
+		'min_distance' ':' min_distance=EDouble
+		'max_distance' ':' max_distance=EDouble
+		'color_format' ':' color_format=CameraColorFormat
+		'image_width' ':' image_width=EInt
+		'image_height' ':' image_height=EInt
+	'}';
