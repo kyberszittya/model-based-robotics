@@ -4,7 +4,7 @@
 package hu.sze.aut.robotics.vehicle.formatting2
 
 import com.google.inject.Inject
-import hu.sze.aut.robotics.vehicle.model.vehiclemodel.Axis
+import hu.sze.aut.robotics.vehicle.model.vehiclemodel.Catalogue
 import hu.sze.aut.robotics.vehicle.model.vehiclemodel.Vehicle
 import hu.sze.aut.robotics.vehicle.services.VehicleDslGrammarAccess
 import org.eclipse.xtext.formatting2.AbstractFormatter2
@@ -14,29 +14,24 @@ class VehicleDslFormatter extends AbstractFormatter2 {
 	
 	@Inject extension VehicleDslGrammarAccess
 
-	def dispatch void format(Vehicle vehicle, extension IFormattableDocument document) {
+	def dispatch void format(Catalogue catalogue, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (axis : vehicle.axis) {
-			axis.format
-		}
-		for (wheelParameter : vehicle.wheelparameters) {
-			wheelParameter.format
-		}
-		for (sensor : vehicle.sensor) {
+		for (sensor : catalogue.sensor) {
 			sensor.format
-		}
-		for (physicalParameter : vehicle.physicalparameter) {
-			physicalParameter.format
 		}
 	}
 
-	def dispatch void format(Axis axis, extension IFormattableDocument document) {
+	def dispatch void format(Vehicle vehicle, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		for (drive : axis.drive) {
-			drive.format
+		for (axis : vehicle.axes) {
+			axis.format
 		}
-		axis.pose.format
+		vehicle.wheelparameters.format
+		vehicle.physicalparameter.format
+		for (sensorPlacement : vehicle.sensorplacement) {
+			sensorPlacement.format
+		}
 	}
 	
-	// TODO: implement for Drive, Pose, Wheel
+	// TODO: implement for SensorPlacement, Axis, Drive, Pose, Wheel, Camera, StereoCamera
 }

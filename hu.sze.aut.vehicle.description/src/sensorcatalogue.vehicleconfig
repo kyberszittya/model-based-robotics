@@ -1,0 +1,36 @@
+catalogue vehiclesensors
+{
+	sensor {
+		gps duro : freq 10.0 on nmea_sentence{}
+		gps novatel: freq 20.0 on nema_sentence odometry {}
+		imu duro_imu: freq 100.0 on "imu" {}
+		LiDAR vlp_16: freq 10.0 on points_raw {
+			min_distance: 0.5
+			max_distance: 40.0
+			meas_per_rotations: 360
+			fov: 41.33
+			center_angle: 10.0					
+		}
+		LiDAR ouster_1: freq 20.0 on points_raw {
+			min_distance: 0.5
+			max_distance: 100.0
+			meas_per_rotations: 360
+			fov: 41.33
+			center_angle: 10.0
+		}
+		laser sick_lms111: freq 60.0 on "laser" {
+			
+		}
+		stereocamera zed_camera: freq 60.0 on "camera_node/image" {
+			baseline: 0.16			
+			fov: 90.0
+			quality: 75
+			min_distance: 0.3
+			max_distance: 25.0
+			color_format: color
+			image_width: 1920
+			image_height: 1080			
+		}		
+	}
+	
+}

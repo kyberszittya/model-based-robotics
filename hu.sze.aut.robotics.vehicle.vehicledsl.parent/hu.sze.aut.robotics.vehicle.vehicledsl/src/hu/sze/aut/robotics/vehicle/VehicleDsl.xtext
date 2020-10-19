@@ -10,12 +10,13 @@ EntryPoint returns RootElement:
 
 Catalogue returns Catalogue:
 	{Catalogue}
-	'catalogue' name=EString
+	'catalogue' name=EString '{'
 	('sensor' 
 	'{' 
 		sensor+=Sensor 
 		(sensor+=Sensor)* 
 	'}' )?
+	'}'
 ;
 
 Vehicle returns Vehicle:
@@ -28,15 +29,18 @@ Vehicle returns Vehicle:
 			axes+=Axis 
 			(axes+=Axis)* 
 		'}' )?
-		(wheelparameters=WheelParameter)
-		
+		(wheelparameters=WheelParameter)		
 		(physicalparameter=PhysicalParameter)
+		('sensorplacements' '{'sensorplacement+=SensorPlacement (sensorplacement+=SensorPlacement)* '}')
 	'}';
 
-
+SensorPlacement returns SensorPlacement:
+	{SensorPlacement}
+	'placement' name=EString 'of' sensor=[Sensor|EString] 'in' frame=EString pose=Pose
+;
 
 Sensor returns Sensor:
-	LiDAR | Camera;
+	LiDAR | Camera | StereoCamera | GPS | IMU | LaserScanner;
 
 
 
@@ -121,10 +125,13 @@ Rotation returns Rotation:
 
 LiDAR returns LiDAR:
 	{LiDAR}
-	'LiDAR'	name=EString':' 'freq' frequency=EDouble 'in' 'frame' frame=EString
+	'LiDAR'	name=EString':' 'freq' frequency=EDouble 'on' topic_name=EString
 	'{'
 		'min_distance' ':' min_distance=EDouble
 		'max_distance' ':' max_distance=EDouble
+		'meas_per_rotations'':' meas_per_rotation=EInt
+		'fov'':' field_of_view=EDouble
+		'center_angle'':' center_angle=EDouble 
 	'}'
 	;
 
@@ -135,9 +142,31 @@ enum CameraColorFormat returns CameraColorFormat:
 	Color='color' | GrayScale='gray'
 ;
 
+GPS returns GPS:
+	{GPS}
+	'gps' name=EString':' 'freq' frequency=EDouble 'on' topic_name=EString (odometry?='odometry')?
+	'{'
+		
+	'}'
+;
+
+IMU returns IMU:
+	{IMU}
+	'imu' name=EString':' 'freq' frequency=EDouble 'on' topic_name=EString
+	'{'
+	'}'
+;
+
+LaserScanner returns LaserScanner:
+	{LaserScanner}
+	'laser' name=EString':' 'freq' frequency=EDouble 'on' topic_name=EString
+	'{'		
+	'}'
+;
+
 Camera returns Camera:
 	{Camera}
-	'monocamera' name=EString':' 'freq' frequency=EDouble 'in' 'frame' frame=EString
+	'monocamera' name=EString':' 'freq' frequency=EDouble 'on' topic_name=EString
 	'{'
 		'fov'':' field_of_view=EDouble
 		'quality' ':' quality=EInt		
@@ -146,12 +175,17 @@ Camera returns Camera:
 		'color_format' ':' color_format=CameraColorFormat
 		'image_width' ':' image_width=EInt
 		'image_height' ':' image_height=EInt
+		// Subsensors		
+		('subsensors'':''{'
+			subsensor+=Sensor (subsensor+=Sensor)*
+		'}' )?
 	'}';
 
 StereoCamera returns StereoCamera:
 	{StereoCamera}
-	'stereocamera' name=EString':' 'freq' frequency=EDouble 'in' 'frame' frame=EString
+	'stereocamera' name=EString':' 'freq' frequency=EDouble 'on' topic_name=EString
 	'{'
+		'baseline'':' baseline=EDouble
 		'fov'':' field_of_view=EDouble
 		'quality' ':' quality=EInt		
 		'min_distance' ':' min_distance=EDouble
@@ -159,4 +193,8 @@ StereoCamera returns StereoCamera:
 		'color_format' ':' color_format=CameraColorFormat
 		'image_width' ':' image_width=EInt
 		'image_height' ':' image_height=EInt
+		// Subsensors		
+		('subsensors'':''{'
+			subsensor+=Sensor (subsensor+=Sensor)*
+		'}')? 
 	'}';

@@ -1,0 +1,240 @@
+[
+	{
+		"type": "GPS Device",
+		"name": "duro_gps",
+		"params": {
+			"Frequency": 10.0,
+			"Topic": "duro_gps/nmea_sentence",
+			"Frame": "duro",
+			"IgnoreMapOrigin": true
+		},
+		"transform": {
+			"x": -0.0,
+			"y": 1.18,
+			"z": -0.196,
+			"roll": -0.0,
+			"pitch": 0.0,
+			"yaw": 0.0
+		}
+	},
+		{
+		"type": "GPS Device",
+		"name": "novatel_gps",
+		"params": {
+			"Frequency": 20.0,
+			"Topic": "novatel_gps/nema_sentence",
+			"Frame": "novatel",
+			"IgnoreMapOrigin": true
+		},
+		"transform": {
+			"x": -0.408,
+			"y": 1.362,
+			"z": 1.33,
+			"roll": -0.0,
+			"pitch": 0.0,
+			"yaw": 0.0
+		}
+	},
+	{
+		"type": "GPS Odometry",
+		"name": "novatel_gps GPS Odometry",
+		"params": {
+			"Frequency": 20.0,
+			"Topic": "novatel/nema_sentence",
+			"Frame": "novatel"
+		},
+		"transform": {
+			"x": -0.408,
+			"y": 1.362,
+			"z": 1.33,
+			"roll": -0.0,
+			"pitch": 0.0,
+			"yaw": 0.0
+		}
+	},
+		{
+	    "type": "Lidar",
+		"name": "velodyne_right",
+	    "params": {
+	      "LaserCount": 32,
+	      "MinDistance": 0.5,
+	      "MaxDistance": 40.0,
+	      "RotationFrequency": 10.0,
+	      "MeasurementsPerRotation": 360,
+	      "FieldOfView": 41.33,
+	      "CenterAngle": 10.0,
+	      "Compensated": true,
+	      "PointColor": "#ff000000",
+	      "Topic": "points_raw/points_raw",
+	      "Frame": "velodyne_right"
+	    },
+	    "transform": {
+	    	"x": -0.703,
+	    	"y": 1.166,
+	    	"z": 1.749,
+	    	"roll": -0.0,
+	    	"pitch": 0.0,
+	    	"yaw": 0.0
+	    }
+	},
+		{
+	    "type": "Lidar",
+		"name": "velodyne_left",
+	    "params": {
+	      "LaserCount": 32,
+	      "MinDistance": 0.5,
+	      "MaxDistance": 40.0,
+	      "RotationFrequency": 10.0,
+	      "MeasurementsPerRotation": 360,
+	      "FieldOfView": 41.33,
+	      "CenterAngle": 10.0,
+	      "Compensated": true,
+	      "PointColor": "#ff000000",
+	      "Topic": "points_raw/points_raw",
+	      "Frame": "velodyne_left"
+	    },
+	    "transform": {
+	    	"x": 0.703,
+	    	"y": 1.166,
+	    	"z": 1.749,
+	    	"roll": -0.0,
+	    	"pitch": 0.0,
+	    	"yaw": 0.0
+	    }
+	},
+		{
+	    "type": "Lidar",
+		"name": "ouster_right",
+	    "params": {
+	      "LaserCount": 32,
+	      "MinDistance": 0.5,
+	      "MaxDistance": 100.0,
+	      "RotationFrequency": 20.0,
+	      "MeasurementsPerRotation": 360,
+	      "FieldOfView": 41.33,
+	      "CenterAngle": 10.0,
+	      "Compensated": true,
+	      "PointColor": "#ff000000",
+	      "Topic": "points_raw/points_raw",
+	      "Frame": "ouster_right"
+	    },
+	    "transform": {
+	    	"x": -0.58,
+	    	"y": 1.278,
+	    	"z": 1.769,
+	    	"roll": -0.0,
+	    	"pitch": 0.0,
+	    	"yaw": 0.0
+	    }
+	},
+		{
+	    "type": "Lidar",
+		"name": "ouster_left",
+	    "params": {
+	      "LaserCount": 32,
+	      "MinDistance": 0.5,
+	      "MaxDistance": 100.0,
+	      "RotationFrequency": 20.0,
+	      "MeasurementsPerRotation": 360,
+	      "FieldOfView": 41.33,
+	      "CenterAngle": 10.0,
+	      "Compensated": true,
+	      "PointColor": "#ff000000",
+	      "Topic": "points_raw/points_raw",
+	      "Frame": "ouster_left"
+	    },
+	    "transform": {
+	    	"x": 0.58,
+	    	"y": 1.278,
+	    	"z": 1.769,
+	    	"roll": -0.0,
+	    	"pitch": 0.0,
+	    	"yaw": 0.0
+	    }
+	},
+		{
+	   "type": "Lidar",
+	   "name": "sick_laser",
+	   "params": {
+	   	 "LaserCount": 10,
+	   	 "MinDistance": 0.5,
+	   	 "MaxDistance": 100,
+	   	 "RotationFrequency": 10,
+	   	 "MeasurementsPerRotation": 360,
+	   	 "FieldOfView": 1,
+	   	 "CenterAngle": 10,
+	   	 "Compensated": true,
+	   	 "PointColor": "#00ff00",
+	   	 "Topic": "sick_laser/laser",
+	   	 "Frame": "sick_laser"
+	   },
+	   "transform": {
+	   	"x": 0.351,
+	   	"y": 0.108,
+	   	"z": 3.707,
+	   	"roll": -0.0,
+	   	"pitch": 0.0,
+	   	"yaw": 0.0
+	   }
+	},
+		{
+	    "type": "Color Camera",
+	    "name": "zed_camera_left",
+	    "params": {
+	      "Width": 1920,
+	      "Height": 1080,
+	      "Frequency": 60.0,
+	      "JpegQuality": 75,
+	      "FieldOfView": 90.0,
+	      "MinDistance": 0.3,
+	      "MaxDistance": 25.0,
+	      "Topic": "zed_camera/camera_node/image/image/compressed",
+	      "Frame": "zed"
+	    },
+	    "transform": {
+	    	"x": 0.08,
+	    	"y": 1.286,
+	    	"z": 1.874,
+	    	"roll": -0.0,
+	    	"pitch": 0.0,
+	    	"yaw": 0.0
+	    }
+	},
+	{
+	    "type": "Color Camera",
+	    "name": "zed_camera_right",
+	    "params": {
+	      "Width": 1920,
+	      "Height": 1080,
+	      "Frequency": 60.0,
+	      "JpegQuality": 75,
+	      "FieldOfView": 90.0,
+	      "MinDistance": 0.3,
+	      "MaxDistance": 25.0,
+	      "Topic": "zed_camera/camera_node/image/image/compressed",
+	      "Frame": "zed"
+	    },
+	    "transform": {
+	    	"x": -0.08,
+	    	"y": 1.286,
+	    	"z": 1.874,
+	    	"roll": -0.0,
+	    	"pitch": 0.0,
+	    	"yaw": 0.0
+	    }
+	}
+	,
+	{
+	  "type": "Keyboard Control",
+	  "name": "Keyboard Car Control"
+	},
+	{
+	  "type": "Wheel Control",
+	  "name": "Wheel Car Control"
+	},
+	{
+	  "type": "Vehicle Control",
+	  "name": "Autoware Car Control",
+	  "params": { "Topic": "/vehicle_cmd" }
+	}
+]

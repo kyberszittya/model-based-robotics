@@ -1,0 +1,47 @@
+vehicle nissanleaf
+{
+	axes
+	{
+		driven axis front_axis: AckermannSteer {
+			length 1.5
+			pose {
+				displacement x: 0.75, y:0.0, z: 0.0
+			}			
+			drive
+			{
+				Drive {
+					wheel {
+						Wheel {
+							
+						}
+					}
+				}
+			}
+		}
+	}
+	wheelparameter Michelin
+	{
+		radius 0.4
+		width 0.2
+	}
+	physicalparameter
+	{
+		baselength 2.7
+		mass 1200.0		
+	}
+	sensorplacements
+	{		
+		// All placement is in SAE coordinates
+		placement duro_gps of "vehiclesensors.duro" in "duro"  pose { displacement x: -0.196, y: 0.0, z: 1.18 rotation roll: 0.0, pitch: 0.0, yaw: 0.0  }
+		placement novatel_gps of "vehiclesensors.novatel" in "novatel" pose { displacement x: 1.33, y: 0.408, z: 1.362 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+		// LiDARs
+		placement velodyne_right of "vehiclesensors.vlp_16"   in "velodyne_right" pose { displacement x: 1.749, y: 0.703, z: 1.166 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+		placement velodyne_left  of "vehiclesensors.vlp_16"   in "velodyne_left" pose { displacement x: 1.749, y: -0.703, z: 1.166 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+		placement ouster_right   of "vehiclesensors.ouster_1" in "ouster_right" pose { displacement x: 1.769, y: 0.58, z: 1.278 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+		placement ouster_left    of "vehiclesensors.ouster_1" in "ouster_left" pose { displacement x: 1.769, y: -0.58, z: 1.278 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+		// Scanner
+		placement sick_laser of "vehiclesensors.sick_lms111" in "sick_laser" pose { displacement x: 3.707, y: -0.351, z: 0.108 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+		// Stereo cameras
+		placement zed_camera of "vehiclesensors.zed_camera" in "zed" pose { displacement x: 1.874, y: 0.0, z: 1.286 rotation roll: 0.0, pitch: 0.0, yaw: 0.0}
+	}
+}

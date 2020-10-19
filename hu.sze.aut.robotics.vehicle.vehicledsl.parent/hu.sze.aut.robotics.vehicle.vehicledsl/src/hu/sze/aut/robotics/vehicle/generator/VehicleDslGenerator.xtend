@@ -7,6 +7,11 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import hu.sze.aut.robotics.vehicle.model.vehiclemodel.Vehicle
+import hu.sze.aut.robotics.vehicle.model.vehiclemodel.Sensor
+import java.util.ArrayList
+import java.util.List
+import hu.sze.aut.robotics.vehicle.model.vehiclemodel.SensorPlacement
 
 /**
  * Generates code from your model files on save.
@@ -14,8 +19,20 @@ import org.eclipse.xtext.generator.IGeneratorContext
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class VehicleDslGenerator extends AbstractGenerator {
+	
+	
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		val el = resource.allContents.filter[it instanceof Vehicle]
+		val Vehicle vehicle = el.head as Vehicle
+		if (vehicle!==null){
+			
+			// TODO: check subsensors too (e.g. Ouster)
+			val List<SensorPlacement> sensorplacements = new ArrayList<SensorPlacement>; 
+			vehicle.sensorplacement.forEach[sensorplacements.add(it)]
+			fsa.generateFile(vehicle.name+".sensorconfig.json",
+				LgsvlConfiguration.generateLgsvlSensorConfiguration(sensorplacements))
+		}
 //		fsa.generateFile('greetings.txt', 'People to greet: ' + 
 //			resource.allContents
 //				.filter(Greeting)

@@ -35,7 +35,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frame" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subsensor" upperBound="-1"
+        eType="#//Sensor" containment="true" eOpposite="#//Sensor/sensor"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensor" eType="#//Sensor"
+        eOpposite="#//Sensor/subsensor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Drive">
     <eStructuralFeatures xsi:type="ecore:EReference" name="wheel" upperBound="-1"
@@ -44,6 +48,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="LiDAR" eSuperTypes="#//Sensor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="laser_count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="32"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="meas_per_rotation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="360"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="field_of_view" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="center_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Camera" eSuperTypes="#//Sensor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="field_of_view" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
@@ -87,9 +97,12 @@
         eType="#//Sensor"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pose" eType="#//Pose" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frame" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IMU" eSuperTypes="#//Sensor"/>
-  <eClassifiers xsi:type="ecore:EClass" name="GPS" eSuperTypes="#//Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GPS" eSuperTypes="#//Sensor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="odometry" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LaserScanner" eSuperTypes="#//Sensor"/>
   <eClassifiers xsi:type="ecore:EClass" name="StereoCamera" eSuperTypes="#//Camera">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baseline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
