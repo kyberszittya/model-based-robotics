@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kinematicmodel" nsURI="http://aut.sze.hu/kinematicmodel" nsPrefix="kinematicmodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Robot">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="link" upperBound="-1" eType="#//Link"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joint" upperBound="-1"
+        eType="#//Joint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inertia" upperBound="-1"
+        eType="#//Inertia" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collision" upperBound="-1"
+        eType="#//Collision" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="visual" upperBound="-1"
+        eType="#//Visual" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Joint" eSuperTypes="#//TreeElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jointconstraints" eType="#//JointConstraints"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TreeElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pose" eType="#//Pose" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pose">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rotation" eType="#//Rotation"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" upperBound="-1"
+        eType="#//Position" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Position">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Rotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="roll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pitch" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="yaw" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JointConstraints">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_limit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_limit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Inertia">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iyy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iyz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="izz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Axis">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ay" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="az" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Visual" eSuperTypes="#//Geometry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Collision" eSuperTypes="#//Geometry"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Geometry" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="geometrydescription" eType="#//GeometryDescription"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GeometryDescription" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mesh" eSuperTypes="#//GeometryDescription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Primitive" eSuperTypes="#//GeometryDescription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Cube" eSuperTypes="#//Primitive">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Cylinder" eSuperTypes="#//Primitive">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="0.5"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sphere" eSuperTypes="#//Primitive">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+  </eClassifiers>
+</ecore:EPackage>
