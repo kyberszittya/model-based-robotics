@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
-    modelDirectory="/hu.sze.aut.robotics.robot.kinematic.description.model/src-gen"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.sze.aut.robotics.robot.kinematic.description.model/src-gen"
     creationIcons="false" editDirectory="/hu.sze.aut.robotics.robot.kinematic.description.model.edit/src-gen"
     editorDirectory="/hu.sze.aut.robotics.robot.kinematic.description.model.editor/src-gen"
     modelPluginID="hu.sze.aut.robotics.robot.kinematic.description.model" modelName="Kinematicmodel"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    testsDirectory="/hu.sze.aut.robotics.robot.kinematic.description.model.tests/src-gen"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
   <foreignModel>kinematicmodel.ecore</foreignModel>
-  <testsDirectory xsi:nil="true"/>
   <genPackages prefix="Kinematicmodel" basePackage="hu.sze.aut.robotics.robot.kinematic.description.model"
       disposableProviderFactory="true" ecorePackage="kinematicmodel.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="kinematicmodel.ecore#//JointType">
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Translational"/>
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Rotational"/>
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Continuous"/>
+    </genEnums>
     <genClasses ecoreClass="kinematicmodel.ecore#//Robot">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Robot/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/link"/>
@@ -28,6 +32,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/parent"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/child"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/axis"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/jointtype"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//TreeElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TreeElement/name"/>

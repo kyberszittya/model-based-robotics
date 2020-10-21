@@ -10,6 +10,8 @@
         eType="#//PhysicalParameter" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="sensorplacement" upperBound="-1"
         eType="#//SensorPlacement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="simulationsetup" upperBound="-1"
+        eType="#//SimulationSetup" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wheel">
     <eStructuralFeatures xsi:type="ecore:EReference" name="wheelparameters" eType="#//WheelParameter"/>
@@ -80,6 +82,7 @@
     <eLiterals name="NoSteer"/>
     <eLiterals name="AckermannSteer" value="1"/>
     <eLiterals name="Independent" value="2"/>
+    <eLiterals name="Caster" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pose">
     <eStructuralFeatures xsi:type="ecore:EReference" name="displacement" eType="#//Displacement"
@@ -118,4 +121,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="RootElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationSetup"/>
 </ecore:EPackage>

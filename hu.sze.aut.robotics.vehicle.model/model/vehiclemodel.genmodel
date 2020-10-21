@@ -14,6 +14,7 @@
       <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/NoSteer"/>
       <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/AckermannSteer"/>
       <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/Independent"/>
+      <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//AxisType/Caster"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="vehiclemodel.ecore#//CameraColorFormat">
       <genEnumLiterals ecoreEnumLiteral="vehiclemodel.ecore#//CameraColorFormat/GrayScale"/>
@@ -24,6 +25,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/wheelparameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/physicalparameter"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/sensorplacement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Vehicle/simulationsetup"/>
     </genClasses>
     <genClasses ecoreClass="vehiclemodel.ecore#//Wheel">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference vehiclemodel.ecore#//Wheel/wheelparameters"/>
@@ -109,5 +111,6 @@
     <genClasses ecoreClass="vehiclemodel.ecore#//RootElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute vehiclemodel.ecore#//RootElement/name"/>
     </genClasses>
+    <genClasses ecoreClass="vehiclemodel.ecore#//SimulationSetup"/>
   </genPackages>
 </genmodel:GenModel>

@@ -24,6 +24,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Link"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="jointtype" eType="#//JointType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TreeElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -32,8 +33,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Pose">
     <eStructuralFeatures xsi:type="ecore:EReference" name="rotation" eType="#//Rotation"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" upperBound="-1"
-        eType="#//Position" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//Position"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Position">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
@@ -92,5 +93,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="Sphere" eSuperTypes="#//Primitive">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JointType">
+    <eLiterals name="Translational"/>
+    <eLiterals name="Rotational" value="1"/>
+    <eLiterals name="Continuous" value="2"/>
   </eClassifiers>
 </ecore:EPackage>

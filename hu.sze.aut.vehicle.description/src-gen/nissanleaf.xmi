@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:vehiclemodel="http://aut.sze.hu/vehiclemodel">
+  <vehiclemodel:Vehicle name="nissanleaf">
+    <axes length="1.5" name="front_axis" type="AckermannSteer" driven="true">
+      <drive>
+        <wheel/>
+      </drive>
+      <pose>
+        <displacement x="0.75"/>
+      </pose>
+    </axes>
+    <wheelparameters radius="0.4" width="0.2" name="Michelin"/>
+    <physicalparameter baselength="2.7" mass="1200.0"/>
+    <sensorplacement sensor="/1" name="duro_gps" frame="duro">
+      <pose>
+        <displacement x="-0.196" z="1.18"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/2" name="novatel_gps" frame="novatel">
+      <pose>
+        <displacement x="1.33" y="0.408" z="1.362"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/3" name="velodyne_right" frame="velodyne_right">
+      <pose>
+        <displacement x="1.749" y="0.703" z="1.166"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/4" name="velodyne_left" frame="velodyne_left">
+      <pose>
+        <displacement x="1.749" y="-0.703" z="1.166"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/5" name="ouster_right" frame="ouster_right">
+      <pose>
+        <displacement x="1.769" y="0.58" z="1.278"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/6" name="ouster_left" frame="ouster_left">
+      <pose>
+        <displacement x="1.769" y="-0.58" z="1.278"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/7" name="sick_laser" frame="sick_laser">
+      <pose>
+        <displacement x="3.707" y="-0.351" z="0.108"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+    <sensorplacement sensor="/8" name="zed_camera" frame="zed">
+      <pose>
+        <displacement x="1.874" z="1.286"/>
+        <rotation/>
+      </pose>
+    </sensorplacement>
+  </vehiclemodel:Vehicle>
+  <vehiclemodel:GPS name="duro" frequency="10.0" topic_name="nmea_sentence"/>
+  <vehiclemodel:GPS name="novatel" frequency="20.0" topic_name="nema_sentence" odometry="true"/>
+  <vehiclemodel:LiDAR name="vlp_16" frequency="10.0" topic_name="points_raw" min_distance="0.5" max_distance="40.0" field_of_view="41.33" center_angle="10.0"/>
+  <vehiclemodel:LiDAR name="vlp_16" frequency="10.0" topic_name="points_raw" min_distance="0.5" max_distance="40.0" field_of_view="41.33" center_angle="10.0"/>
+  <vehiclemodel:LiDAR name="ouster_1" frequency="20.0" topic_name="points_raw" min_distance="0.5" max_distance="100.0" field_of_view="41.33" center_angle="10.0"/>
+  <vehiclemodel:LiDAR name="ouster_1" frequency="20.0" topic_name="points_raw" min_distance="0.5" max_distance="100.0" field_of_view="41.33" center_angle="10.0"/>
+  <vehiclemodel:LaserScanner name="sick_lms111" frequency="60.0" topic_name="laser"/>
+  <vehiclemodel:StereoCamera name="zed_camera" frequency="60.0" topic_name="camera_node/image" quality="75" min_distance="0.3" max_distance="25.0" image_width="1920" image_height="1080" baseline="0.16"/>
+</xmi:XMI>

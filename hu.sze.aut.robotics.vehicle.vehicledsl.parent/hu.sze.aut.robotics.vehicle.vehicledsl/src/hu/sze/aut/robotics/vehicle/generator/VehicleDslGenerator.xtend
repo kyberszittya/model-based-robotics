@@ -12,6 +12,14 @@ import hu.sze.aut.robotics.vehicle.model.vehiclemodel.Sensor
 import java.util.ArrayList
 import java.util.List
 import hu.sze.aut.robotics.vehicle.model.vehiclemodel.SensorPlacement
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import hu.sze.aut.robotics.vehicle.model.vehiclemodel.VehiclemodelPackage
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 
 /**
  * Generates code from your model files on save.
@@ -23,20 +31,32 @@ class VehicleDslGenerator extends AbstractGenerator {
 	
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		val ResourceSet resset = new ResourceSetImpl()
+		resset.resourceFactoryRegistry.extensionToFactoryMap.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl)
+		resset.packageRegistry.put(VehiclemodelPackage.eNS_URI, VehiclemodelPackage.eINSTANCE)
+		val Resource out_res = resset.createResource(URI.createURI("ws://vehicle.vehci"))
 		val el = resource.allContents.filter[it instanceof Vehicle]
 		val Vehicle vehicle = el.head as Vehicle
 		if (vehicle!==null){
-			
-			// TODO: check subsensors too (e.g. Ouster)
+			val Copier copier = new Copier()
+			val new_vehicle = copier.copy(vehicle) as Vehicle
+			copier.copyReferences
+			out_res.contents.add(new_vehicle)
 			val List<SensorPlacement> sensorplacements = new ArrayList<SensorPlacement>; 
-			vehicle.sensorplacement.forEach[sensorplacements.add(it)]
+			new_vehicle.sensorplacement.forEach[
+				val s = copier.copy(it.sensor) as Sensor
+				it.sensor = s
+				out_res.contents.add(s)
+				sensorplacements.add(it)				
+			]
 			fsa.generateFile(vehicle.name+".sensorconfig.json",
-				LgsvlConfiguration.generateLgsvlSensorConfiguration(sensorplacements))
-		}
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(Greeting)
-//				.map[name]
-//				.join(', '))
+				LgsvlConfiguration.generateLgsvlSensorConfiguration(sensorplacements)
+			)
+			// Generate test instance						
+			val ByteArrayOutputStream ss = new ByteArrayOutputStream();
+			out_res.save(ss, null)
+			val ByteArrayInputStream is = new ByteArrayInputStream(ss.toByteArray)
+			fsa.generateFile(vehicle.name+".xmi", is)
+		}		
 	}
 }
