@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:vehiclemodel="http://aut.sze.hu/vehiclemodel">
   <vehiclemodel:Vehicle name="nissanleaf">
-    <axes length="1.5" name="front_axis" type="AckermannSteer" driven="true">
-      <drive>
-        <wheel/>
-      </drive>
+    <axes length="1.5" name="front_axis" type="AckermannSteer">
+      <transmission driven="true" transmission_ratio="0.7" name="right_transmission">
+        <wheel wheelparameters="/0/@wheelparameters.0" name="right_wheel"/>
+      </transmission>
+      <transmission driven="true" transmission_ratio="0.7" name="left_transmission">
+        <wheel wheelparameters="/0/@wheelparameters.0" name="left_wheel"/>
+      </transmission>
       <pose>
         <displacement x="0.75"/>
+      </pose>
+    </axes>
+    <axes length="1.45" name="rear_axis">
+      <transmission transmission_ratio="0.7" name="right_transmission">
+        <wheel wheelparameters="/0/@wheelparameters.0" name="right_wheel"/>
+      </transmission>
+      <transmission transmission_ratio="0.7" name="left_transmission">
+        <wheel wheelparameters="/0/@wheelparameters.0" name="left_wheel"/>
+      </transmission>
+      <pose>
+        <displacement x="-0.75"/>
       </pose>
     </axes>
     <wheelparameters radius="0.4" width="0.2" name="Michelin"/>

@@ -23,20 +23,19 @@ Vehicle returns Vehicle:
 	{Vehicle}
 	'vehicle'
 	name=EString
-	'{'
-		('axes' 
-		'{' 
-			axes+=Axis 
-			(axes+=Axis)* 
-		'}' )?
-		(wheelparameters=WheelParameter)		
+	'{'	 
+		axes+=Axis 
+		(axes+=Axis)* 
+		(wheelparameters+=WheelParameter)
+		(wheelparameters+=WheelParameter)*
 		(physicalparameter=PhysicalParameter)
-		('sensorplacements' '{'sensorplacement+=SensorPlacement (sensorplacement+=SensorPlacement)* '}')
+		sensorplacement+=SensorPlacement 
+		(sensorplacement+=SensorPlacement)*
 	'}';
 
 SensorPlacement returns SensorPlacement:
 	{SensorPlacement}
-	'placement' name=EString 'of' sensor=[Sensor|EString] 'in' frame=EString pose=Pose
+	'placement' name=EString 'of' sensor=[Sensor|EString] 'in' frame=EString 'at' pose=Pose
 ;
 
 Sensor returns Sensor:
@@ -49,16 +48,13 @@ EString returns ecore::EString:
 
 Axis returns Axis:
 	{Axis}	
-	(driven?='driven')? 'axis' name=EString ':' type=AxisType 
+	'axis' name=EString ':' type=AxisType 
 	'{'
 		('length' length=EDouble)?
 		('radius' radius=EDouble)?		
-		(pose=Pose)
-		('drive' 
-		'{' 
-			drive+=Drive 
-			(drive+=Drive)* 
-		'}' )?
+		('pose' pose=Pose)
+		transmission+=Transmission 
+		(transmission+=Transmission)*
 		
 	'}';
 
@@ -81,22 +77,24 @@ PhysicalParameter returns PhysicalParameter:
 EDouble returns ecore::EDouble:
 	'-'? INT? '.' INT (('E'|'e') '-'? INT)?;
 
-Drive returns Drive:
-	{Drive}
-	'Drive'
+Transmission returns Transmission:
+	{Transmission}
+	(driven?='driven')? 'transmission' name=EString
 	'{'
-		('wheel' '{' wheel+=Wheel ( "," wheel+=Wheel)* '}' )?
+		'ratio'':'transmission_ratio=EDouble
+		wheel+=Wheel ( wheel+=Wheel)*
+		('offset' offset=Pose)?
 	'}';
 
 enum AxisType returns AxisType:
-				NoSteer = 'NoSteer' | AckermannSteer = 'AckermannSteer' | Independent = 'Independent';
+				NoSteer = 'nosteer' | AckermannSteer = 'ackermann' 
+				| Independent = 'independent' | Caster = 'caster';
 
 EBoolean returns ecore::EBoolean:
 	'true' | 'false';
 
 Pose returns Pose:
 	{Pose}
-	'pose'
 	'{'
 		('displacement' displacement=Displacement)?
 		('rotation' rotation=Rotation)?
@@ -104,11 +102,10 @@ Pose returns Pose:
 
 Wheel returns Wheel:
 	{Wheel}
-	'Wheel'
+	'wheel' name=EString
 	'{'
-		('transmission_ratio' transmission_ratio=EDouble)?
-		('wheelparameters' wheelparameters=[WheelParameter|EString])?
-		('pose' pose=Pose)?
+		('wheelparameter' wheelparameters=[WheelParameter|EString])?
+		('offset' offset=Pose)?
 	'}';
 
 Displacement returns Displacement:
