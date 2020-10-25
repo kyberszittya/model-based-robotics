@@ -15,17 +15,23 @@
       <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Translational"/>
       <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Rotational"/>
       <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Continuous"/>
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointType/Fixed"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="kinematicmodel.ecore#//ImageType">
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//ImageType/RGB"/>
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//ImageType/Depth"/>
     </genEnums>
     <genClasses ecoreClass="kinematicmodel.ecore#//Robot">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Robot/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/link"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/joint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/templateinstantiation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/controlmodel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Robot/description_package"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Link">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/inertia"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Link/mass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/collision"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/visual"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/child_joint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/templateinstantiation"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Joint">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/jointconstraints"/>
@@ -33,6 +39,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/child"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/axis"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/jointtype"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/controlled"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/damping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/friction"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//TreeElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TreeElement/name"/>
@@ -57,12 +66,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//JointConstraints/max_limit"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Inertia">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/ixx"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/ixy"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/iyy"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/ixz"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/iyz"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/izz"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Inertia/mass"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Inertia/inertiamatrix"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Axis">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Axis/ax"/>
@@ -75,7 +80,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Geometry/geometrydescription"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//GeometryDescription"/>
-    <genClasses ecoreClass="kinematicmodel.ecore#//Mesh"/>
+    <genClasses ecoreClass="kinematicmodel.ecore#//Mesh">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Mesh/filepath"/>
+    </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Primitive"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//Cube">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Cube/sx"/>
@@ -89,5 +96,75 @@
     <genClasses ecoreClass="kinematicmodel.ecore#//Sphere">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sphere/radius"/>
     </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//KinematicModule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//KinematicModule/link"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//KinematicModule/joint"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//KinematicModule/root_element"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//KinematicModule/sensor"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//TemplateInstantiation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TemplateInstantiation/kinematicmodule"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TemplateInstantiation/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TemplateInstantiation/pose"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TemplateInstantiation/link"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TemplateInstantiation/negate"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//RootElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//RootElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//Sensor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Sensor/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/freq"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/topic_name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/namespace"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//Lidar">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Lidar/vertical"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//Camera">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Camera/cameraobjective"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Camera/image_type"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//LaserScanner">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//LaserScanner/horizontal"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//LaserScanner/range"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//InertiaMatrix">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//InertiaMatrix/iyy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//InertiaMatrix/ixz"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//InertiaMatrix/izz"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//InertiaMatrix/iyz"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//InertiaMatrix/ixx"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//InertiaMatrix/ixy"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//BeamBlockDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//BeamBlockDefinition/samples"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//BeamBlockDefinition/resolution"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//BeamBlockDefinition/min_angle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//BeamBlockDefinition/max_angle"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//RangeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//RangeDefinition/max_range"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//RangeDefinition/min_range"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//CameraObjective">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/fov"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/image_width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/image_height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/clip_near"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/clip_far"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//CameraObjective/offset"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//Imu"/>
+    <genClasses ecoreClass="kinematicmodel.ecore#//ControlModel"/>
+    <genClasses ecoreClass="kinematicmodel.ecore#//DifferentialRobotModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//DifferentialRobotModel/left_joint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//DifferentialRobotModel/right_joint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//DifferentialRobotModel/wheel_separation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//DifferentialRobotModel/wheel_diameter"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//CustomControlModel"/>
   </genPackages>
 </genmodel:GenModel>

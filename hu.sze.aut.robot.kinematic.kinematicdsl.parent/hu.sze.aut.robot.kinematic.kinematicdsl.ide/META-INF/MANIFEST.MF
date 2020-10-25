@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: hu.sze.aut.robot.kinematic.kinematicdsl.ide
+Bundle-ManifestVersion: 2
+Bundle-Name: hu.sze.aut.robot.kinematic.kinematicdsl.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: hu.sze.aut.robot.kinematic.kinematicdsl.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: hu.sze.aut.robot.kinematic.kinematicdsl,
+ hu.sze.aut.robotics.robot.kinematic.description.model,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: hu.sze.aut.robot.kinematic.ide.contentassist.antlr.internal,
+ hu.sze.aut.robot.kinematic.ide.contentassist.antlr

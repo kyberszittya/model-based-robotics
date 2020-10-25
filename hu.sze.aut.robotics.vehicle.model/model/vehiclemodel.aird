@@ -5,7 +5,7 @@
     <semanticResources>vehiclemodel.genmodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_cf7e4BGVEeuauuJUgj7utw">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_cihf4BGVEeuauuJUgj7utw" name="vehiclemodel" repPath="#_chtnkBGVEeuauuJUgj7utw" changeId="0db1864d-b374-45a6-9f80-cf0e3568e487">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_cihf4BGVEeuauuJUgj7utw" name="vehiclemodel" repPath="#_chtnkBGVEeuauuJUgj7utw" changeId="f068bcac-4b3b-4e38-95ab-1845cb33f7a7">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="vehiclemodel.ecore#/"/>
       </ownedRepresentationDescriptors>

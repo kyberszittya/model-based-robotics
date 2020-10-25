@@ -1,30 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="kinematicmodel" nsURI="http://aut.sze.hu/kinematicmodel" nsPrefix="kinematicmodel">
-  <eClassifiers xsi:type="ecore:EClass" name="Robot">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="link" upperBound="-1" eType="#//Link"
+  <eClassifiers xsi:type="ecore:EClass" name="Robot" eSuperTypes="#//KinematicModule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="templateinstantiation"
+        upperBound="-1" eType="#//TemplateInstantiation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="controlmodel" eType="#//ControlModel"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="joint" upperBound="-1"
-        eType="#//Joint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description_package" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//TreeElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="inertia" upperBound="-1"
         eType="#//Inertia" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-        defaultValueLiteral="1.0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="collision" upperBound="-1"
         eType="#//Collision" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="visual" upperBound="-1"
         eType="#//Visual" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child_joint" upperBound="-1"
+        eType="#//Joint" eOpposite="#//Joint/parent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="templateinstantiation"
+        upperBound="-1" eType="#//TemplateInstantiation" eOpposite="#//TemplateInstantiation/link"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Joint" eSuperTypes="#//TreeElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="jointconstraints" eType="#//JointConstraints"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"
+        eOpposite="#//Link/child_joint"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Link"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="jointtype" eType="#//JointType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="damping" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TreeElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -51,15 +57,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_limit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Inertia">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iyy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-        defaultValueLiteral="1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iyz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="izz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
-        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inertiamatrix" eType="#//InertiaMatrix"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Axis">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
@@ -74,8 +75,10 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GeometryDescription" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Mesh" eSuperTypes="#//GeometryDescription"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Primitive" eSuperTypes="#//GeometryDescription"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mesh" eSuperTypes="#//GeometryDescription">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filepath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Primitive" abstract="true" eSuperTypes="#//GeometryDescription"/>
   <eClassifiers xsi:type="ecore:EClass" name="Cube" eSuperTypes="#//Primitive">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="1.0"/>
@@ -98,5 +101,93 @@
     <eLiterals name="Translational"/>
     <eLiterals name="Rotational" value="1"/>
     <eLiterals name="Continuous" value="2"/>
+    <eLiterals name="Fixed" value="3"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="KinematicModule" eSuperTypes="#//RootElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="link" upperBound="-1" eType="#//Link"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="joint" upperBound="-1"
+        eType="#//Joint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="root_element" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensor" upperBound="-1"
+        eType="#//Sensor" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TemplateInstantiation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kinematicmodule" eType="#//KinematicModule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pose" eType="#//Pose" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="#//Link" eOpposite="#//Link/templateinstantiation"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RootElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Sensor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lidar" eSuperTypes="#//LaserScanner">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vertical" eType="#//BeamBlockDefinition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Camera" eSuperTypes="#//Sensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cameraobjective" upperBound="-1"
+        eType="#//CameraObjective" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image_type" eType="#//ImageType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LaserScanner" eSuperTypes="#//Sensor">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="horizontal" eType="#//BeamBlockDefinition"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//RangeDefinition"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InertiaMatrix">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iyy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="izz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iyz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ixy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BeamBlockDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="samples" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resolution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_angle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RangeDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_range" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="min_range" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CameraObjective">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fov" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image_width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="image_height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clip_near" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="clip_far" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offset" eType="#//Pose"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ImageType">
+    <eLiterals name="RGB"/>
+    <eLiterals name="Depth" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Imu" eSuperTypes="#//Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ControlModel" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DifferentialRobotModel" eSuperTypes="#//ControlModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="left_joint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="right_joint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheel_separation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheel_diameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomControlModel" eSuperTypes="#//ControlModel"/>
 </ecore:EPackage>
