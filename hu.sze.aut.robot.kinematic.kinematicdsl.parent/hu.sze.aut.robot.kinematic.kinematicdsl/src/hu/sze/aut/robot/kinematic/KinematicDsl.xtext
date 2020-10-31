@@ -130,9 +130,23 @@ Link returns Link:
 	'}';
 
 Joint returns Joint:
+	Joint_IMPL | SpringJoint
+;
+
+Joint_IMPL returns Joint:
 	{Joint}
 	(controlled?='controlled')? (jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
 	'{'	
+		(axis=Axis)?	
+		('pose' pose=Pose)?
+		('jointconstraints' jointconstraints=JointConstraints)?
+	'}';
+	
+SpringJoint returns SpringJoint:
+	{SpringJoint}
+	(controlled?='controlled')? (jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
+	'{'	
+		'spring' '{' 'stiffness' stiffness=EDouble 'pos_reference' pos_reference=EDouble  'limits' '(' 'stiffness'limit_stiffness=EDouble 'reference' limit_reference=EDouble ')''}'
 		(axis=Axis)?	
 		('pose' pose=Pose)?
 		('jointconstraints' jointconstraints=JointConstraints)?
@@ -182,6 +196,7 @@ Visual returns Visual:
 	{Visual}
 	'visual'
 	'{'
+		('offset' offset=Pose)?
 		(geometrydescription=GeometryDescription)?
 	'}';
 
@@ -205,7 +220,7 @@ Position returns Position:
 
 Mesh returns Mesh:
 	{Mesh}
-	'mesh' 'of' filepath=EString
+	'mesh' 'of' filepath=EString ('scale' sx=EDouble',' sy=EDouble',' sz=EDouble)?
 	;
 
 Cube returns Cube:

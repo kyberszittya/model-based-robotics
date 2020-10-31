@@ -73,10 +73,18 @@
   <eClassifiers xsi:type="ecore:EClass" name="Geometry" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="geometrydescription" eType="#//GeometryDescription"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="offset" eType="#//Pose"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GeometryDescription" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Mesh" eSuperTypes="#//GeometryDescription">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="filepath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sx" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sz" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+        defaultValueLiteral="1.0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Primitive" abstract="true" eSuperTypes="#//GeometryDescription"/>
   <eClassifiers xsi:type="ecore:EClass" name="Cube" eSuperTypes="#//Primitive">
@@ -190,4 +198,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="wheel_diameter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CustomControlModel" eSuperTypes="#//ControlModel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpringJoint" eSuperTypes="#//Joint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stiffness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pos_reference" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit_stiffness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit_reference" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
 </ecore:EPackage>

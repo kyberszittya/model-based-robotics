@@ -27,6 +27,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Imu
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ControlModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.DifferentialRobotModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.CustomControlModel
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Mesh
 
 class GenerateUrdf {
 	
@@ -54,11 +55,29 @@ class GenerateUrdf {
 			geom_element.setAttribute("length", '''«geom.height»''')
 			element.appendChild(geom_element)
 		}
+		// Generate mesh element
+		else if (geometry instanceof Mesh){
+			val Element geom_element = doc.createElement("mesh")
+			geom_element.setAttribute("filename", '''«geometry.filepath»''')
+			geom_element.setAttribute("scale", '''«geometry.sx» «geometry.sy» «geometry.sz»''')
+			element.appendChild(geom_element)
+		}		
 		return element
 	}
 	
 	static def generateVisualElement(Document doc, Visual visual){
 		val Element element = doc.createElement("visual")
+		// Add origin if it exists
+		if (visual.offset!==null)
+		{
+			val Element origin_element = doc.createElement("origin")
+			origin_element.setAttribute("xyz", '''«visual.offset.position.x» «visual.offset.position.y» «visual.offset.position.z»''')
+			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(visual.offset.rotation.roll)» «
+				UtilityMath.degToRad(visual.offset.rotation.pitch)» «UtilityMath.degToRad(visual.offset.rotation.yaw)»'''
+			)
+			element.appendChild(origin_element)
+		}
+		// Geometry added
 		element.appendChild(generateGeometryElement(doc, visual.geometrydescription))
 		return element
 	}

@@ -78,10 +78,14 @@
     <genClasses ecoreClass="kinematicmodel.ecore#//Collision"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//Geometry">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Geometry/geometrydescription"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Geometry/offset"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//GeometryDescription"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//Mesh">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Mesh/filepath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Mesh/sx"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Mesh/sy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Mesh/sz"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Primitive"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//Cube">
@@ -166,5 +170,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//DifferentialRobotModel/wheel_diameter"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//CustomControlModel"/>
+    <genClasses ecoreClass="kinematicmodel.ecore#//SpringJoint">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/stiffness"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/pos_reference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/limit_stiffness"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/limit_reference"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
