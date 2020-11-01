@@ -13,12 +13,12 @@ class PhysicalCalculations {
 		inertia.inertiamatrix = KinematicmodelFactory.eINSTANCE.createInertiaMatrix
 		val double mass = original.mass
 		if (geom instanceof Cube){
-			val d = geom.sx
-			val w = geom.sy
-			val h = geom.sz
-			inertia.inertiamatrix.ixx = 1.0/12.0*(w*w + h*h)
-			inertia.inertiamatrix.iyy = 1.0/12.0*(d*d + h*h)
-			inertia.inertiamatrix.izz = 1.0/12.0*(w*w + d*d)
+			val x = geom.sx
+			val y = geom.sy
+			val z = geom.sz
+			inertia.inertiamatrix.ixx = (y*y + z*z)/12.0			
+			inertia.inertiamatrix.iyy = (x*x + z*z)/12.0
+			inertia.inertiamatrix.izz = (x*x + y*y)/12.0
 		}
 		else if (geom instanceof Sphere){
 			val double r = geom.radius 

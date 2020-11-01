@@ -28,6 +28,8 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Cont
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.DifferentialRobotModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.CustomControlModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Mesh
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TranslationalFriction
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TorsionalFriction
 
 class GenerateUrdf {
 	
@@ -68,8 +70,7 @@ class GenerateUrdf {
 	static def generateVisualElement(Document doc, Visual visual){
 		val Element element = doc.createElement("visual")
 		// Add origin if it exists
-		if (visual.offset!==null)
-		{
+		if (visual.offset!==null){
 			val Element origin_element = doc.createElement("origin")
 			origin_element.setAttribute("xyz", '''«visual.offset.position.x» «visual.offset.position.y» «visual.offset.position.z»''')
 			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(visual.offset.rotation.roll)» «
@@ -84,6 +85,14 @@ class GenerateUrdf {
 	
 	static def generateCollisionElement(Document doc, Collision collision){		
 		val Element element = doc.createElement("collision")
+		if (collision.offset!==null){
+			val Element origin_element = doc.createElement("origin")
+			origin_element.setAttribute("xyz", '''«collision.offset.position.x» «collision.offset.position.y» «collision.offset.position.z»''')
+			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(collision.offset.rotation.roll)» «
+				UtilityMath.degToRad(collision.offset.rotation.pitch)» «UtilityMath.degToRad(collision.offset.rotation.yaw)»'''
+			)
+			element.appendChild(origin_element)
+		}
 		element.appendChild(generateGeometryElement(doc, collision.geometrydescription))
 		return element
 	}
@@ -309,6 +318,49 @@ class GenerateUrdf {
 		return gazebo_element
 	}
 	
+	static def createLinkTranslationalFriction(Document doc, TranslationalFriction friction){
+		// Translational Friction
+		val Element ode_element = doc.createElement("ode")
+		val Element mu_element  = doc.createElement("mu")
+		mu_element.textContent  = friction.mu.toString
+		ode_element.appendChild(mu_element)
+		val Element mu2_element = doc.createElement("mu2")
+		mu2_element.textContent = friction.mu2.toString
+		ode_element.appendChild(mu2_element)
+		return ode_element
+	}
+	
+	static def createLinkTorsionalFriction(Document doc, TorsionalFriction friction){
+		// Torsional Friction
+		val Element torsional_friction_element = doc.createElement("torsional")
+		val Element coefficient_element  = doc.createElement("coefficient")
+		coefficient_element.textContent  = friction.coeffictient.toString
+		torsional_friction_element.appendChild(coefficient_element)
+		val Element patch_radius_element = doc.createElement("patch_radius")
+		patch_radius_element.textContent = friction.patch_radius.toString
+		torsional_friction_element.appendChild(patch_radius_element)
+		return torsional_friction_element
+	}
+	
+	static def createFrictionElement(Document doc, Link link){
+		val Element main_friction_element = doc.createElement("gazebo")
+		main_friction_element.setAttribute("reference", link.name)
+		val Element collision_element = doc.createElement("collision")
+		val Element surface_element = doc.createElement("surface")
+		collision_element.appendChild(surface_element)
+		val Element friction_element = doc.createElement("friction")
+		surface_element.appendChild(friction_element)
+		// Add translational friction if exists
+		if (link.translationalfriction !== null){
+			surface_element.appendChild(createLinkTranslationalFriction(doc, link.translationalfriction))
+		}		
+		// Add torsional friction if exists
+		if (link.torsionalfriction !== null){
+			surface_element.appendChild(createLinkTorsionalFriction(doc, link.torsionalfriction))
+		}		
+		return friction_element
+	}
+	
 	static def createLinkElement(Document doc, Link link){
 		val Element link_element = doc.createElement("link")
 		link_element.setAttribute("name", link.name)
@@ -324,7 +376,7 @@ class GenerateUrdf {
 		for (Inertia i: link.inertia){
 			// TODO: think a little about 
 			link_element.appendChild(generateInertiaElement(doc, i, link.collision.head))
-		}
+		}		 
 		return link_element
 	}
 	
@@ -448,17 +500,25 @@ class GenerateUrdf {
 		root_element.appendChild(doc.createComment("GEN: Links"))
 		for (Link l: robot.link){
 			// Add to robot element
+			root_element.appendChild(doc.createComment('''GEN LINK: «l.name»'''))
 			root_element.appendChild(createLinkElement(doc, l))
+			// Handle friction
+			// Add friction
+			if (l.torsionalfriction!==null || l.translationalfriction!==null){
+				root_element.appendChild(createFrictionElement(doc, l))
+			}
 		}
 		// Iterate all over the joint elements
 		root_element.appendChild(doc.createComment("GEN: Joints"))
 		for (Joint j: robot.joint){
-			// Add to robot element		
+			// Add to robot element
+			root_element.appendChild(doc.createComment('''GEN JOINT: «j.name»'''))		
 			root_element.appendChild(createJointElement(doc, j))
 		}
 		// Iterate all over the sensor elements
 		root_element.appendChild(doc.createComment("GEN: Sensor model"))
 		for (Sensor s: robot.sensor){
+			root_element.appendChild(doc.createComment('''GEN SENSOR: «s.name»'''))
 			root_element.appendChild(createSensorElement(doc, s))
 		}
 		// Urdf control

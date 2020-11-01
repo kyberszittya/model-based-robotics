@@ -32,6 +32,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/visual"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/child_joint"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/templateinstantiation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/torsionalfriction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Link/translationalfriction"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Joint">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/jointconstraints"/>
@@ -175,6 +177,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/pos_reference"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/limit_stiffness"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//SpringJoint/limit_reference"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//TorsionalFriction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TorsionalFriction/coeffictient"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TorsionalFriction/patch_radius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TorsionalFriction/surface_radius"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//TranslationalFriction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TranslationalFriction/mu"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TranslationalFriction/mu2"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TranslationalFriction/axis"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

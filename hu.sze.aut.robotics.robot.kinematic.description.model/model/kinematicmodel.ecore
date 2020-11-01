@@ -19,6 +19,10 @@
         eType="#//Joint" eOpposite="#//Joint/parent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="templateinstantiation"
         upperBound="-1" eType="#//TemplateInstantiation" eOpposite="#//TemplateInstantiation/link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="torsionalfriction" eType="#//TorsionalFriction"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="translationalfriction"
+        eType="#//TranslationalFriction" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Joint" eSuperTypes="#//TreeElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="jointconstraints" eType="#//JointConstraints"
@@ -203,5 +207,15 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pos_reference" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit_stiffness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit_reference" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TorsionalFriction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coeffictient" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="patch_radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="surface_radius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TranslationalFriction">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="mu2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

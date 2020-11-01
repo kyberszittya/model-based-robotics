@@ -127,7 +127,20 @@ Link returns Link:
 		(inertia+=Inertia (  inertia+=Inertia)* )?
 		(collision+=Collision ( collision+=Collision)* )?
 		(visual+=Visual ( visual+=Visual)* )?
+		(translationalfriction=TransationalFriction)?
+		(torsionalfriction=TorsionalFriction)?
 	'}';
+	
+TransationalFriction returns TranslationalFriction:
+	{TranslationalFriction} 
+	'transationalfriction' 'mu' mu=EDouble 'mu2' mu2=EDouble  ('direction' axis=Axis)?
+;
+
+TorsionalFriction returns TorsionalFriction:
+	{TorsionalFriction}
+	'torsionalfriction' 'coeff' coeffictient=EDouble 'patch_radius' patch_radius=EDouble
+;
+
 
 Joint returns Joint:
 	Joint_IMPL | SpringJoint
@@ -189,6 +202,7 @@ Collision returns Collision:
 	{Collision}
 	'collision'
 	'{'
+		('offset' offset=Pose)?
 		(geometrydescription=GeometryDescription)?
 	'}';
 
