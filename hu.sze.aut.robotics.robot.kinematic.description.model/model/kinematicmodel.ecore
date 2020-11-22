@@ -7,6 +7,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="controlmodel" eType="#//ControlModel"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description_package" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description_format" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//TreeElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="inertia" upperBound="-1"
@@ -23,13 +25,18 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="translationalfriction"
         eType="#//TranslationalFriction" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent_joint" eType="#//Joint"
+        eOpposite="#//Joint/child"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensor" eType="#//Sensor"
+        eOpposite="#//Sensor/parent"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Joint" eSuperTypes="#//TreeElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="jointconstraints" eType="#//JointConstraints"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"
         eOpposite="#//Link/child_joint"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="child" eType="#//Link"
+        eOpposite="#//Link/parent_joint"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="jointtype" eType="#//JointType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -65,6 +72,7 @@
         defaultValueLiteral="1.0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inertiamatrix" eType="#//InertiaMatrix"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pose" eType="#//Pose" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Axis">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
@@ -136,7 +144,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sensor" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//Link"
+        eOpposite="#//Link/sensor"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
         defaultValueLiteral="1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

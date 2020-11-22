@@ -14,7 +14,7 @@ RootElement returns RootElement:
 
 Robot returns Robot:
 	{Robot}
-	'robot'	name=EString 'in' description_package=EString
+	'robot'	name=EString 'in' description_package=EString 'format' (description_format+=EString(',' description_format+=EString)*)
 	'{'
 		(link+=Link (link+=Link)* )?
 		(joint+=Joint (joint+=Joint)* )?
@@ -178,7 +178,7 @@ Pose returns Pose:
 
 Inertia returns Inertia:
 	{Inertia}
-	'inertia' 'mass' mass=EDouble (inertiamatrix=InertiaMatrix)?;
+	'inertia' 'mass' mass=EDouble (inertiamatrix=InertiaMatrix)? ('origin' pose=Pose)?;
 	
 InertiaMatrix returns InertiaMatrix:
 	{InertiaMatrix}

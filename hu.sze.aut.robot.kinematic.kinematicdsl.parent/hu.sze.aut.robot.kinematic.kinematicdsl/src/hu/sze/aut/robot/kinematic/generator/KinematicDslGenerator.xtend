@@ -91,27 +91,68 @@ class KinematicDslGenerator extends AbstractGenerator {
 			for (TemplateInstantiation tmpl: root.templateinstantiation){
 				connectTemplateWithJoint(robot, root, tmpl)
 			}
-			// 2. Generate URDF-XML
+			// 2. Generate Description formats
 			val TransformerFactory transformerFactory = TransformerFactory.newInstance
 			val Transformer transformer = transformerFactory.newTransformer
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-			val xml_root = GenerateUrdf.constructUrdf(robot)
-			val DOMSource source = new DOMSource(xml_root)
-			val ByteArrayOutputStream bos = new ByteArrayOutputStream()
-			val StreamResult streamresult = new StreamResult(bos)
-			transformer.transform(source, streamresult)
-			val ByteArrayInputStream bin = new ByteArrayInputStream(bos.toByteArray)
-			fsa.generateFile('''«robot.name».urdf''', bin)
-			//
-			fsa.generateFile('''«robot.name».spawn.py''', GenerateRos2.generateSpawnEntity(robot))
-			// Generate a TF from ROBOT
-			val tf_joints = GenerateStaticTfLaunch.traverseTfLaunchSensors(robot)
-			for (Joint j: tf_joints){
-				System.out.println('''«j.parent.name»->«j.child.name»''')
+			// Lots of formats are possible iterate all over them
+			for (format: robot.description_format)
+			{
+				System.out.println("Generating for format: "+format)
+				var ModelGenerator generator = null
+				var file_extension = ""
+			
+				if (format=="urdf")
+				{
+					generator = new GenerateUrdf();
+					file_extension = "urdf"
+				}
+				else if (format=="sdf")
+				{
+					generator = new GenerateSdf()
+					file_extension = "sdf"				
+				}
+				// Generator
+				if (generator !== null)
+				{
+					val xml_root = generator.constructDescription(robot)
+					val DOMSource source = new DOMSource(xml_root)
+					val ByteArrayOutputStream bos = new ByteArrayOutputStream()
+					val StreamResult streamresult = new StreamResult(bos)
+					transformer.transform(source, streamresult)
+					val ByteArrayInputStream bin = new ByteArrayInputStream(bos.toByteArray)
+					if (generator instanceof GenerateSdf)
+					{
+						fsa.generateFile('''«robot.name»/model.«file_extension»''', bin)
+						val config_xml = GenerateSdf.generateConfig(robot)
+						val DOMSource source_config = new DOMSource(config_xml)
+						val ByteArrayOutputStream bos_config = new ByteArrayOutputStream()
+						val StreamResult streamresult_config = new StreamResult(bos_config)
+						transformer.transform(source_config, streamresult_config)
+						val ByteArrayInputStream bin_config = new ByteArrayInputStream(bos_config.toByteArray)
+						fsa.generateFile('''«robot.name»/model.config''', bin_config)
+					}
+					else
+					{
+						fsa.generateFile('''«robot.name».«file_extension»''', bin)
+					}
+					//
+					fsa.generateFile('''«robot.name».spawn.py''', GenerateRos2.generateSpawnEntity(robot))
+					// Generate a TF from ROBOT
+					val tf_joints = GenerateStaticTfLaunch.traverseTfLaunchSensors(robot)
+					for (Joint j: tf_joints){
+						System.out.println('''«j.parent.name»->«j.child.name»''')
+					}
+					fsa.generateFile('''«robot.name».statictf.py''', GenerateStaticTfLaunch.generateTfLaunch(tf_joints))
+					System.out.println("Finished generation of artifacts")
+				}
+				else
+				{
+					System.err.println("Unavailable generator for specified format")
+				}
+			
 			}
-			fsa.generateFile('''«robot.name».statictf.py''', GenerateStaticTfLaunch.generateTfLaunch(tf_joints))
-			System.out.println("Finished generation of artifacts")
 		}
 	}
 }

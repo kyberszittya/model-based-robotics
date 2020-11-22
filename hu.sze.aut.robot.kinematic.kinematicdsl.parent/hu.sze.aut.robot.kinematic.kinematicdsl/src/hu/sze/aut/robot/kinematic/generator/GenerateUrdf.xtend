@@ -31,9 +31,9 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Mesh
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TranslationalFriction
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TorsionalFriction
 
-class GenerateUrdf {
+class GenerateUrdf extends AbstractGazeboGenerator {
 	
-	static def generateGeometryElement(Document doc, GeometryDescription geometry){
+	override generateGeometryElement(Document doc, GeometryDescription geometry){
 		val Element element = doc.createElement("geometry")
 		// Generate cube
 		if (geometry instanceof Cube){
@@ -67,7 +67,7 @@ class GenerateUrdf {
 		return element
 	}
 	
-	static def generateVisualElement(Document doc, Visual visual){
+	override generateVisualElement(Document doc, Link link, Visual visual){
 		val Element element = doc.createElement("visual")
 		// Add origin if it exists
 		if (visual.offset!==null){
@@ -83,7 +83,7 @@ class GenerateUrdf {
 		return element
 	}
 	
-	static def generateCollisionElement(Document doc, Collision collision){		
+	override generateCollisionElement(Document doc, Link link, Collision collision){		
 		val Element element = doc.createElement("collision")
 		if (collision.offset!==null){
 			val Element origin_element = doc.createElement("origin")
@@ -97,7 +97,7 @@ class GenerateUrdf {
 		return element
 	}
 	
-	static def generateInertiaElement(Document doc, Inertia inertia, Geometry ref_geometry){
+	override generateInertiaElement(Document doc, Inertia inertia, Geometry ref_geometry){
 		val Element element = doc.createElement("inertial")
 		// Mass
 		val Element mass_element = doc.createElement("mass")
@@ -124,141 +124,22 @@ class GenerateUrdf {
 			inertia_element.setAttribute("izz", new_inertia.inertiamatrix.izz.toString)
 		}
 		element.appendChild(inertia_element)
+		if (inertia.pose !== null)
+		{
+			val Element origin_element = doc.createElement("origin")
+			origin_element.setAttribute("xyz", '''«inertia.pose.position.x» «inertia.pose.position.y» «inertia.pose.position.z»''')
+			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(inertia.pose.rotation.roll)
+				» «UtilityMath.degToRad(inertia.pose.rotation.pitch)» «UtilityMath.degToRad(inertia.pose.rotation.yaw)»''')
+			element.appendChild(origin_element)
+		}
 		return element
 	}
 	
-	static def createBeamBlockDefinition(Document doc, BeamBlockDefinition beamblock, String beam_placement){
-		val beam_element = doc.createElement(beam_placement)
-		// Max angle for LiDAR
-		val max_angle_element = doc.createElement("max_angle")
-		max_angle_element.textContent = UtilityMath.degToRad(beamblock.max_angle).toString
-		beam_element.appendChild(max_angle_element)
-		// Min angle for LiDAR
-		val min_angle_element = doc.createElement("min_angle")
-		min_angle_element.textContent = UtilityMath.degToRad(beamblock.min_angle).toString
-		beam_element.appendChild(min_angle_element)
-		// Resolution element
-		val resolution_element = doc.createElement("resolution")
-		resolution_element.textContent = beamblock.resolution.toString
-		beam_element.appendChild(resolution_element)
-		// Samples element add for LiDAR
-		val samples_element = doc.createElement("samples")
-		samples_element.textContent = beamblock.samples.toString
-		beam_element.appendChild(samples_element)
-		return beam_element
-	}	
-	
-	static def createRangeDefinition(Document doc, RangeDefinition rangedef){
-		val range_element = doc.createElement("range")
-		// Min range
-		val min_element = doc.createElement("min")
-		min_element.textContent = rangedef.min_range.toString		
-		range_element.appendChild(min_element)
-		// Max range
-		val max_element = doc.createElement("max")
-		max_element.textContent = rangedef.max_range.toString
-		range_element.appendChild(max_element)
-		return range_element
-	}
-	
-	static def createRangePluginElement(Document doc, LaserScanner scanner){
-		val Element plugin_element = doc.createElement("plugin")
-		plugin_element.setAttribute("filename", "libgazebo_ros_ray_sensor.so")
-		val Element plugin_ros_element = doc.createElement("ros")
-		// Namespace		
-		val Element namespace_element = doc.createElement("namespace")
-		namespace_element.textContent = scanner.name
-		plugin_ros_element.appendChild(namespace_element)
-		// Argument
-		val Element argument_element = doc.createElement("argument")
-		argument_element.textContent = '''~/out:=«scanner.topic_name»'''
-		plugin_ros_element.appendChild(argument_element)
-		// Output type definition
-		val Element output_type = doc.createElement("output_type")
-		plugin_element.appendChild(output_type)
-		// Type-specific setup
-		if (scanner instanceof Lidar){
-			plugin_element.setAttribute("name", "lidar_"+scanner.name)
-			output_type.textContent = "sensor_msgs/PointCloud2"
-			
-		}else{
-			plugin_element.setAttribute("name", "laser"+scanner.name)
-			output_type.textContent = "sensor_msgs/LaserScan"
-		}
-		plugin_element.appendChild(output_type)
-		plugin_element.appendChild(plugin_ros_element)
-		// Add frame name
-		val Element plugin_frame_name = doc.createElement("frame_name")
-		plugin_frame_name.textContent = scanner.parent.name
-		plugin_element.appendChild(plugin_frame_name)		
-		//
-		return plugin_element
-	}
-	
-	static def createCameraPlugin(Document doc, Camera camera)
-	{
-		val Element plugin_element = doc.createElement("plugin")
-		plugin_element.setAttribute("name", "camera_sensor_"+camera.name)
-		plugin_element.setAttribute("filename", "libgazebo_ros_camera.so")
-		// Param name
-		val Element name_element = doc.createElement("camera_name")
-		name_element.textContent = camera.name
-		plugin_element.appendChild(name_element)
-		// Set frame
-		val Element frame_name = doc.createElement("frame_name")
-		frame_name.textContent = camera.parent.name
-		plugin_element.appendChild(frame_name)
-		return plugin_element
-	}
-	
-	static def createCameraObjectiveElement(Document doc, CameraObjective camera){
-		val Element camera_element = doc.createElement("camera")
-		camera_element.setAttribute("name", camera.name)
-		val Element pose_element = doc.createElement("pose")
-		pose_element.textContent = '''«camera.offset.position.x» «camera.offset.position.y» «camera.offset.position.z» «
-			UtilityMath.degToRad(camera.offset.rotation.roll)» «UtilityMath.degToRad(camera.offset.rotation.pitch)» «
-			UtilityMath.degToRad(camera.offset.rotation.yaw)»'''
-		camera_element.appendChild(pose_element)
-		// Camera parameters
-		// FOV
-		val Element fov_element = doc.createElement("horizontal_fov")
-		fov_element.textContent = UtilityMath.degToRad(camera.fov).toString
-		camera_element.appendChild(fov_element)
-		// Image (width/height)
-		val Element image_element = doc.createElement("image")
-		val Element width_element = doc.createElement("width")
-		width_element.textContent = camera.image_width.toString
-		image_element.appendChild(width_element)
-		val Element height_element = doc.createElement("height")
-		height_element.textContent = camera.image_height.toString
-		image_element.appendChild(height_element)
-		val Element format_element = doc.createElement("format")
-		format_element.textContent = "R8G8B8"
-		image_element.appendChild(format_element)
-		camera_element.appendChild(image_element)
-		// Clip
-		val Element clip_element = doc.createElement("clip")
-		val Element near_element = doc.createElement("near")
-		near_element.textContent = camera.clip_near.toString
-		clip_element.appendChild(near_element)
-		val Element far_element = doc.createElement("far")
-		far_element.textContent = camera.image_height.toString
-		clip_element.appendChild(far_element)
-		camera_element.appendChild(clip_element)
-		// Done, return
-		return camera_element
-	}
-	
-	static def createImuPluginElement(Document doc, Imu imu){
-		val Element plugin_element = doc.createElement("plugin")
-		plugin_element.setAttribute("name", imu.name)
-		plugin_element.setAttribute("filename", "libgazebo_ros_imu_sensor.so")
-		
-		return plugin_element
-	}
 	
 	
-	static def createSensorElement(Document doc, Sensor sensor){
+	
+	
+	override createSensorElement(Document doc, Sensor sensor){
 		val Element gazebo_element = doc.createElement("gazebo")
 		gazebo_element.setAttribute("reference", sensor.parent.name)
 		val Element sensor_element = doc.createElement("sensor")
@@ -318,7 +199,7 @@ class GenerateUrdf {
 		return gazebo_element
 	}
 	
-	static def createLinkTranslationalFriction(Document doc, TranslationalFriction friction){
+	override createLinkTranslationalFriction(Document doc, TranslationalFriction friction){
 		// Translational Friction
 		val Element ode_element = doc.createElement("ode")
 		val Element mu_element  = doc.createElement("mu")
@@ -330,7 +211,7 @@ class GenerateUrdf {
 		return ode_element
 	}
 	
-	static def createLinkTorsionalFriction(Document doc, TorsionalFriction friction){
+	override createLinkTorsionalFriction(Document doc, TorsionalFriction friction){
 		// Torsional Friction
 		val Element torsional_friction_element = doc.createElement("torsional")
 		val Element coefficient_element  = doc.createElement("coefficient")
@@ -342,7 +223,7 @@ class GenerateUrdf {
 		return torsional_friction_element
 	}
 	
-	static def createFrictionElement(Document doc, Link link){
+	override createFrictionElement(Document doc, Link link){
 		val Element main_friction_element = doc.createElement("gazebo")
 		main_friction_element.setAttribute("reference", link.name)
 		val Element collision_element = doc.createElement("collision")
@@ -361,16 +242,16 @@ class GenerateUrdf {
 		return friction_element
 	}
 	
-	static def createLinkElement(Document doc, Link link){
+	override createLinkElement(Document doc, Link link){
 		val Element link_element = doc.createElement("link")
 		link_element.setAttribute("name", link.name)
 		// Add visual elements of the link
 		for (Visual v: link.visual){	
-			link_element.appendChild(generateVisualElement(doc, v))			
+			link_element.appendChild(generateVisualElement(doc, link, v))			
 		}
 		// Add collision elements of the link
 		for (Collision c: link.collision){
-			link_element.appendChild(generateCollisionElement(doc, c))
+			link_element.appendChild(generateCollisionElement(doc, link, c))
 		}
 		// Add inertia elements
 		for (Inertia i: link.inertia){
@@ -382,7 +263,7 @@ class GenerateUrdf {
 	
 	
 	
-	static def createJointElement(Document doc, Joint jnt){
+	override createJointElement(Document doc, Joint jnt){
 		val Element jnt_element = doc.createElement("joint")
 		jnt_element.setAttribute("name", jnt.name)
 		// Set type
@@ -428,7 +309,7 @@ class GenerateUrdf {
 		return jnt_element
 	}
 	
-	static def constructControlPluginElement(Document doc, Robot robot, ControlModel controlmodel){
+	override constructControlPluginElement(Document doc, Robot robot, ControlModel controlmodel){
 		val Element gazebo_element = doc.createElement("gazebo")
 		val Element plugin_element = doc.createElement("plugin")		
 		if (controlmodel instanceof DifferentialRobotModel){
@@ -488,7 +369,7 @@ class GenerateUrdf {
 		return gazebo_element
 	}
 	
-	static def constructUrdf(Robot robot){
+	override constructDescription(Robot robot){
 		// Typical steps to create XML file
 		val DocumentBuilderFactory factory_doc_builder = DocumentBuilderFactory.newInstance()
 		val DocumentBuilder doc_builder = factory_doc_builder.newDocumentBuilder
