@@ -462,8 +462,11 @@ class GenerateSdf extends AbstractGazeboGenerator {
 			model_element.appendChild(createJointElement(doc, j))
 		}
 		// Urdf control
-		model_element.appendChild(doc.createComment("GEN: Control model"))
-		model_element.appendChild(constructControlPluginElement(doc, robot, robot.controlmodel))
+		if (robot.controlmodel !== null)
+		{
+			model_element.appendChild(doc.createComment("GEN: Control model"))
+			model_element.appendChild(constructControlPluginElement(doc, robot, robot.controlmodel))
+		}
 		
 		root_element.appendChild(model_element)
 		return root_element
