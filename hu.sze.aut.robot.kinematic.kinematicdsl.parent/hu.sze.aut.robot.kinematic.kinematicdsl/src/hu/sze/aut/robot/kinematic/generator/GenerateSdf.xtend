@@ -273,16 +273,34 @@ class GenerateSdf extends AbstractGazeboGenerator {
 	override createLinkElement(Document doc, Link link) {
 		val Element link_element = doc.createElement("link")
 		link_element.setAttribute("name", link.name)
-		if (link.parent_joint!==null)
+		var Element pose_element = null;
+		if (link.pose !== null)
 		{
-			val Element pose_element = doc.createElement("pose")
+			pose_element = doc.createElement("pose")
+			pose_element.appendChild(doc.createTextNode('''«link.pose.position.x» «
+				link.pose.position.y» «
+				link.pose.position.z» «
+				UtilityMath.degToRad(link.pose.rotation.roll)» «
+				UtilityMath.degToRad(link.pose.rotation.pitch)» «
+				UtilityMath.degToRad(link.pose.rotation.yaw)»'''
+			))
+		}
+		if (link.parent_joint !== null)
+		{
+			if (pose_element === null)
+				pose_element = doc.createElement("pose")
 			pose_element.setAttribute("relative_to", link.parent_joint.name)
-			link_element.appendChild(pose_element)
+			
 		}
 		// Set up origin
 		if (link.parent_joint?.jointtype === JointType::FIXED){
-			val Element pose_element = doc.createElement("pose")
+			if (pose_element === null)
+				pose_element = doc.createElement("pose")
 			pose_element.setAttribute("relative_to", "frame_"+link.parent_joint.name)
+			
+		}
+		if (pose_element !== null)
+		{
 			link_element.appendChild(pose_element)
 		}
 		// Add visual elements of the link
