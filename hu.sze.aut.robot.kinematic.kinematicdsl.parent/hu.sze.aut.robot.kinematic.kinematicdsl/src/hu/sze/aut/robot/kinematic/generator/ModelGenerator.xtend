@@ -20,8 +20,11 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Link
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Joint
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Robot
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ControlModel
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 
 interface ModelGenerator {
+	// Geometry basics
+	abstract def Element generatePoseElement(Document doc, Pose element);
 	// Structural elements
 	abstract def Element generateGeometryElement(Document doc, GeometryDescription geometry);
 	abstract def Element generateVisualElement(Document doc, Link link, Visual visual);

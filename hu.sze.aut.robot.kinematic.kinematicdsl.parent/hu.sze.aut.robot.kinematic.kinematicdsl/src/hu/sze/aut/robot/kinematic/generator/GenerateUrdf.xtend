@@ -30,6 +30,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Cust
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Mesh
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TranslationalFriction
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TorsionalFriction
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 
 class GenerateUrdf extends AbstractGazeboGenerator {
 	
@@ -73,9 +74,13 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		if (visual.offset!==null){
 			val Element origin_element = doc.createElement("origin")
 			origin_element.setAttribute("xyz", '''«visual.offset.position.x» «visual.offset.position.y» «visual.offset.position.z»''')
-			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(visual.offset.rotation.roll)» «
-				UtilityMath.degToRad(visual.offset.rotation.pitch)» «UtilityMath.degToRad(visual.offset.rotation.yaw)»'''
-			)
+			if (visual.offset.rotation!==null)
+			{
+				origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(visual.offset.rotation.roll)» «
+					UtilityMath.degToRad(visual.offset.rotation.pitch)» «UtilityMath.degToRad(visual.offset.rotation.yaw)»'''
+				)
+			
+			}
 			element.appendChild(origin_element)
 		}
 		// Geometry added
@@ -88,9 +93,11 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		if (collision.offset!==null){
 			val Element origin_element = doc.createElement("origin")
 			origin_element.setAttribute("xyz", '''«collision.offset.position.x» «collision.offset.position.y» «collision.offset.position.z»''')
-			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(collision.offset.rotation.roll)» «
-				UtilityMath.degToRad(collision.offset.rotation.pitch)» «UtilityMath.degToRad(collision.offset.rotation.yaw)»'''
-			)
+			if (collision.offset.rotation!==null){
+				origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(collision.offset.rotation.roll)» «
+					UtilityMath.degToRad(collision.offset.rotation.pitch)» «UtilityMath.degToRad(collision.offset.rotation.yaw)»'''
+				)			
+			}
 			element.appendChild(origin_element)
 		}
 		element.appendChild(generateGeometryElement(doc, collision.geometrydescription))
@@ -408,4 +415,9 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		// Return with root of the URDF-XML
 		return root_element
 	}
+	
+	override generatePoseElement(Document doc, Pose element) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

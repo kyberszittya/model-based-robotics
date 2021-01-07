@@ -30,6 +30,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Join
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.CustomControlModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.DifferentialRobotModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Lidar
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 
 class GenerateSdf extends AbstractGazeboGenerator {
 	
@@ -366,7 +367,26 @@ class GenerateSdf extends AbstractGazeboGenerator {
 			axis_xyz_element.textContent = '''«jnt.axis.ax» «jnt.axis.ay» «jnt.axis.az»'''
 			axis_element.appendChild(axis_xyz_element)
 			jnt_element.appendChild(axis_element)
+			/// Append joint constraints
+			if (jnt.jointconstraints !== null && jnt.jointtype!=JointType::CONTINUOUS)
+			{
+				val Element joint_constraints_limit = doc.createElement("limit")
+				val Element joint_constraints_lower_limit = doc.createElement("lower")
+				val Element joint_constraints_upper_limit = doc.createElement("upper")
+				if (jnt.jointtype==JointType::ROTATIONAL){
+					joint_constraints_lower_limit.textContent = '''«UtilityMath.degToRad(jnt.jointconstraints.min_limit)»'''				
+					joint_constraints_upper_limit.textContent = '''«UtilityMath.degToRad(jnt.jointconstraints.max_limit)»'''
+				}
+				else{
+					joint_constraints_lower_limit.textContent = '''«jnt.jointconstraints.min_limit»'''
+					joint_constraints_upper_limit.textContent = '''«jnt.jointconstraints.max_limit»'''
+				}
+				joint_constraints_limit.appendChild(joint_constraints_lower_limit)
+				joint_constraints_limit.appendChild(joint_constraints_upper_limit)
+				axis_element.appendChild(joint_constraints_limit)
+			}
 		}
+		
 		// Physical parameter
 		val Element dynamic_element = doc.createElement("dynamics")
 		dynamic_element.setAttribute("damping", jnt.damping.toString)
@@ -489,6 +509,10 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		root_element.appendChild(model_element)
 		return root_element
 		
+	}
+	
+	override generatePoseElement(Document doc, Pose element) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }
