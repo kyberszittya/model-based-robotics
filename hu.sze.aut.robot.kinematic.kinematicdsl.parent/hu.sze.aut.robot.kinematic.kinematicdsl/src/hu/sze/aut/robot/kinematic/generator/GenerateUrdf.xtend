@@ -301,10 +301,15 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		jnt_element.appendChild(dynamic_element)
 		// Origin set up
 		val Element pose_element = doc.createElement("origin")
-		pose_element.setAttribute("xyz", '''«jnt.pose.position.x» «jnt.pose.position.y» «jnt.pose.position.z»''')
-		pose_element.setAttribute("rpy", '''«UtilityMath.degToRad(jnt.pose.rotation.roll)» «
-			UtilityMath.degToRad(jnt.pose.rotation.pitch)» «UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''
-		)
+		if (jnt.pose.position !== null){
+			pose_element.setAttribute("xyz", '''«jnt.pose.position.x» «jnt.pose.position.y» «jnt.pose.position.z»''')		
+		}
+		if (jnt.pose.rotation !== null){
+			pose_element.setAttribute("rpy", '''«UtilityMath.degToRad(jnt.pose.rotation.roll)» «
+				UtilityMath.degToRad(jnt.pose.rotation.pitch)» «UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''
+			)
+		
+		}
 		jnt_element.appendChild(pose_element)
 		// Parent & child links
 		val Element child_link = doc.createElement("child")

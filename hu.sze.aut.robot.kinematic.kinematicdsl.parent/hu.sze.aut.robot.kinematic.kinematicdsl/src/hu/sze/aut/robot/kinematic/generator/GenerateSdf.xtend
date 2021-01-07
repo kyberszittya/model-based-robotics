@@ -34,6 +34,30 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 
 class GenerateSdf extends AbstractGazeboGenerator {
 	
+	override generatePoseElement(Document doc, Pose element) {
+		val Element origin_element = doc.createElement("pose")
+		if (element.position!==null && element.rotation!==null){
+			origin_element.textContent = '''«element.position.x» «
+											 element.position.y» «
+											 element.position.z» «
+											 UtilityMath.degToRad(element.rotation.roll)» «
+							 				 UtilityMath.degToRad(element.rotation.pitch)» «
+							 				 UtilityMath.degToRad(element.rotation.yaw)»'''
+		}
+		else if (element.position===null){
+			origin_element.textContent = '''0.0 0.0 0.0 «
+											 UtilityMath.degToRad(element.rotation.roll)» «
+							 				 UtilityMath.degToRad(element.rotation.pitch)» «
+							 				 UtilityMath.degToRad(element.rotation.yaw)»'''
+		}
+		else if (element.rotation===null){
+			origin_element.textContent = '''«element.position.x» «
+											 element.position.y» «
+											 element.position.z» 0.0 0.0 0.0'''
+		}
+		return origin_element
+	}
+	
 	def static generateConfig(Robot robot){
 		// Typical steps to create XML file
 		val DocumentBuilderFactory factory_doc_builder = DocumentBuilderFactory.newInstance()
@@ -105,6 +129,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		element.setAttribute("name", "viz_"+link.name)
 		// Add origin if it exists
 		if (visual.offset!==null){
+			/*
 			val Element origin_element = doc.createElement("pose")
 			origin_element.textContent = '''«visual.offset.position.x» «
 											 visual.offset.position.y» «
@@ -113,6 +138,9 @@ class GenerateSdf extends AbstractGazeboGenerator {
 							 				 UtilityMath.degToRad(visual.offset.rotation.pitch)» «
 							 				 UtilityMath.degToRad(visual.offset.rotation.yaw)»'''
 			element.appendChild(origin_element)
+			* 
+			*/
+			element.appendChild(generatePoseElement(doc, visual.offset))
 		}
 		// Geometry added
 		element.appendChild(generateGeometryElement(doc, visual.geometrydescription))
@@ -123,6 +151,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		val Element element = doc.createElement("collision")
 		element.setAttribute("name", "coll_"+link.name)
 		if (collision.offset!==null){
+			/*
 			val Element origin_element = doc.createElement("pose")
 			origin_element.textContent = '''«collision.offset.position.x» «
 											 collision.offset.position.y» «
@@ -131,6 +160,9 @@ class GenerateSdf extends AbstractGazeboGenerator {
 							 				 UtilityMath.degToRad(collision.offset.rotation.pitch)» «
 							 				 UtilityMath.degToRad(collision.offset.rotation.yaw)»'''
 			element.appendChild(origin_element)
+			* 
+			*/
+			element.appendChild(generatePoseElement(doc, collision.offset))
 		}
 		element.appendChild(generateGeometryElement(doc, collision.geometrydescription))
 		return element
@@ -189,6 +221,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		element.appendChild(inertia_element)
 		if (inertia.pose !== null)
 		{
+			/*
 			val Element origin_element = doc.createElement("pose")
 			origin_element.textContent = '''«inertia.pose.position.x» «
 											inertia.pose.position.y» «
@@ -197,6 +230,9 @@ class GenerateSdf extends AbstractGazeboGenerator {
 											UtilityMath.degToRad(inertia.pose.rotation.pitch)» «
 											UtilityMath.degToRad(inertia.pose.rotation.yaw)»'''
 			element.appendChild(origin_element)
+			* 
+			*/
+			element.appendChild(generatePoseElement(doc, inertia.pose))
 		}
 		return element
 	}	
@@ -277,6 +313,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		var Element pose_element = null;
 		if (link.pose !== null)
 		{
+			/*
 			pose_element = doc.createElement("pose")
 			pose_element.appendChild(doc.createTextNode('''«link.pose.position.x» «
 				link.pose.position.y» «
@@ -285,6 +322,9 @@ class GenerateSdf extends AbstractGazeboGenerator {
 				UtilityMath.degToRad(link.pose.rotation.pitch)» «
 				UtilityMath.degToRad(link.pose.rotation.yaw)»'''
 			))
+			*  
+			*/
+			pose_element = generatePoseElement(doc, link.pose)
 		}
 		if (link.parent_joint !== null)
 		{
@@ -329,6 +369,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		val Element frame_element = doc.createElement("frame")
 		frame_element.setAttribute("name", "frame_"+jnt.name)
 		// Pose
+		/*
 		val Element pose_element = doc.createElement("pose")
 		pose_element.textContent = '''«jnt.pose.position.x» «
 									   jnt.pose.position.y» «
@@ -337,6 +378,9 @@ class GenerateSdf extends AbstractGazeboGenerator {
 							 		   UtilityMath.degToRad(jnt.pose.rotation.pitch)» «
     					 			   UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''
     	frame_element.appendChild(pose_element)
+    	* 
+    	*/
+    	frame_element.appendChild(generatePoseElement(doc, jnt.pose))
 		// Attach to a top joint
 		frame_element.setAttribute("attached_to", jnt.parent.name)
 		return frame_element
@@ -393,14 +437,18 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		dynamic_element.setAttribute("friction", jnt.friction.toString)
 		jnt_element.appendChild(dynamic_element)
 		// Origin set up
+		/*
 		val Element pose_element = doc.createElement("pose")
-		pose_element.setAttribute("relative_to", jnt.parent.name)
 		pose_element.textContent = '''«jnt.pose.position.x» «
 	  								   jnt.pose.position.y» «
 									   jnt.pose.position.z» «
 									   UtilityMath.degToRad(jnt.pose.rotation.roll)» «
 							 		   UtilityMath.degToRad(jnt.pose.rotation.pitch)» «
-    					 			   UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''	
+    					 			   UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''
+    					 			   *
+    					 			   */
+    	val Element pose_element = generatePoseElement(doc, jnt.pose)
+    	pose_element.setAttribute("relative_to", jnt.parent.name)	
 		jnt_element.appendChild(pose_element)
 		// Parent & child links
 		val Element child_link = doc.createElement("child")
@@ -511,8 +559,6 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		
 	}
 	
-	override generatePoseElement(Document doc, Pose element) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
+	
 	
 }
