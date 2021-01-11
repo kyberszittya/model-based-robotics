@@ -21,6 +21,11 @@
       <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//ImageType/RGB"/>
       <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//ImageType/Depth"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="kinematicmodel.ecore#//JointControlType">
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointControlType/Position"/>
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointControlType/Velocity"/>
+      <genEnumLiterals ecoreEnumLiteral="kinematicmodel.ecore#//JointControlType/Effort"/>
+    </genEnums>
     <genClasses ecoreClass="kinematicmodel.ecore#//Robot">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/templateinstantiation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Robot/controlmodel"/>
@@ -44,9 +49,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/child"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/axis"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/jointtype"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/controlled"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/damping"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Joint/friction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Joint/jointcontrol"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//TreeElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TreeElement/name"/>
@@ -191,6 +196,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TranslationalFriction/mu"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TranslationalFriction/mu2"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TranslationalFriction/axis"/>
+    </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//JointControl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//JointControl/type"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

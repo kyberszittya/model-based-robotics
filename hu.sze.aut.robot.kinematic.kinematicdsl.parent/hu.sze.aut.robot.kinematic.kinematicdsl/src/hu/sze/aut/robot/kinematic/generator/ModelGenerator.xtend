@@ -50,5 +50,5 @@ interface ModelGenerator {
 	// Control
 	abstract def Element constructControlPluginElement(Document doc, Robot robot, ControlModel controlmodel)
 	// Robot
-	abstract def Element constructDescription(Robot robot)
+	abstract def Element constructDescription(Document doc, Robot robot)
 }

@@ -39,9 +39,10 @@
         eOpposite="#//Link/parent_joint"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="jointtype" eType="#//JointType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="controlled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="damping" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="friction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jointcontrol" eType="#//JointControl"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TreeElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -226,5 +227,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mu2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="axis" eType="#//Axis" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="JointControl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//JointControlType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="JointControlType">
+    <eLiterals name="Position"/>
+    <eLiterals name="Velocity" value="1"/>
+    <eLiterals name="Effort" value="2"/>
   </eClassifiers>
 </ecore:EPackage>

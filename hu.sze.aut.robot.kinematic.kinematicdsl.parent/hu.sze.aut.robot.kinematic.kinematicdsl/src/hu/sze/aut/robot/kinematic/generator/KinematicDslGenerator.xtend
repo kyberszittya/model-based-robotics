@@ -10,7 +10,6 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Robot
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Joint
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TemplateInstantiation
-import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.KinematicModule
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Link
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.KinematicmodelFactory
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.JointType
@@ -22,10 +21,12 @@ import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.OutputKeys
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier
 import java.util.HashMap
-import java.io.FileOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.ByteArrayInputStream
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Sensor
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.DocumentBuilder
+import org.w3c.dom.Document
 
 /**
  * Generates code from your model files on save.
@@ -84,6 +85,7 @@ class KinematicDslGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val Robot _r = resource.contents.filter[it instanceof Robot].head as Robot		
 		if (_r!==null){
+			val robot_original = EcoreUtil.copy(_r)
 			val robot = EcoreUtil.copy(_r)
 			
 			val root = robot.root_element
@@ -116,7 +118,15 @@ class KinematicDslGenerator extends AbstractGenerator {
 				// Generator
 				if (generator !== null)
 				{
-					val xml_root = generator.constructDescription(robot)
+					// Typical steps to create XML file
+					val DocumentBuilderFactory factory_doc_builder = DocumentBuilderFactory.newInstance()
+					val DocumentBuilder doc_builder = factory_doc_builder.newDocumentBuilder
+					val Document doc = doc_builder.newDocument		
+					val xml_root = generator.constructDescription(doc, robot)
+					// Generate gazebo plugin configuration
+					if (generator instanceof GenerateSdf){
+						GenerateControlPlugin.generateControlConfigurationElement(doc, generator.model_element, robot_original, "");	
+					}
 					val DOMSource source = new DOMSource(xml_root)
 					val ByteArrayOutputStream bos = new ByteArrayOutputStream()
 					val StreamResult streamresult = new StreamResult(bos)
@@ -153,6 +163,8 @@ class KinematicDslGenerator extends AbstractGenerator {
 				}
 			
 			}
+			// Compile control plugin
+			
 		}
 	}
 }

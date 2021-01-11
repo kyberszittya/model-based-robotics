@@ -148,22 +148,32 @@ Joint returns Joint:
 
 Joint_IMPL returns Joint:
 	{Joint}
-	(controlled?='controlled')? (jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
+	(jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
 	'{'	
 		(axis=Axis)?	
 		('pose' pose=Pose)?
+		(jointcontrol=JointControl)?
 		('jointconstraints' jointconstraints=JointConstraints)?
 	'}';
 	
 SpringJoint returns SpringJoint:
 	{SpringJoint}
-	(controlled?='controlled')? (jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
+	(jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
 	'{'	
 		'spring' '{' 'stiffness' stiffness=EDouble 'pos_reference' pos_reference=EDouble  'limits' '(' 'stiffness'limit_stiffness=EDouble 'reference' limit_reference=EDouble ')''}'
 		(axis=Axis)?	
 		('pose' pose=Pose)?
+		(jointcontrol=JointControl)?
 		('jointconstraints' jointconstraints=JointConstraints)?
 	'}';
+	
+JointControl returns JointControl:
+	{JointControl}
+	'control' 'on' type=JointControlType
+	;
+
+enum JointControlType returns JointControlType:
+	Position = 'position' | Velocity = 'velocity' | Effort = 'effort';
 
 TemplateInstantiation returns TemplateInstantiation:
 	{TemplateInstantiation}

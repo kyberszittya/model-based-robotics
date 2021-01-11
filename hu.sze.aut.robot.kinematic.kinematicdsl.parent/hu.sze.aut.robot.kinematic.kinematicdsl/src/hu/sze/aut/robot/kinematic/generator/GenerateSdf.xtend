@@ -31,8 +31,10 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Cust
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.DifferentialRobotModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Lidar
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class GenerateSdf extends AbstractGazeboGenerator {
+	@Accessors(PUBLIC_GETTER) Element model_element; 
 	
 	override generatePoseElement(Document doc, Pose element) {
 		val Element origin_element = doc.createElement("pose")
@@ -369,17 +371,6 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		val Element frame_element = doc.createElement("frame")
 		frame_element.setAttribute("name", "frame_"+jnt.name)
 		// Pose
-		/*
-		val Element pose_element = doc.createElement("pose")
-		pose_element.textContent = '''«jnt.pose.position.x» «
-									   jnt.pose.position.y» «
-									   jnt.pose.position.z» «
-									   UtilityMath.degToRad(jnt.pose.rotation.roll)» «
-							 		   UtilityMath.degToRad(jnt.pose.rotation.pitch)» «
-    					 			   UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''
-    	frame_element.appendChild(pose_element)
-    	* 
-    	*/
     	frame_element.appendChild(generatePoseElement(doc, jnt.pose))
 		// Attach to a top joint
 		frame_element.setAttribute("attached_to", jnt.parent.name)
@@ -518,15 +509,11 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		return plugin_element
 	}
 	
-	override constructDescription(Robot robot) {
-		// Typical steps to create XML file
-		val DocumentBuilderFactory factory_doc_builder = DocumentBuilderFactory.newInstance()
-		val DocumentBuilder doc_builder = factory_doc_builder.newDocumentBuilder
-		val Document doc = doc_builder.newDocument
+	override constructDescription(Document doc, Robot robot) {
 		// Root element
 		val Element root_element = doc.createElement("sdf")
 		root_element.setAttribute("version", "1.6")
-		val Element model_element = doc.createElement("model")
+		model_element = doc.createElement("model")
 		model_element.setAttribute("name", robot.name)
 		// Iterate all over the links
 		model_element.appendChild(doc.createComment("GEN: links"))

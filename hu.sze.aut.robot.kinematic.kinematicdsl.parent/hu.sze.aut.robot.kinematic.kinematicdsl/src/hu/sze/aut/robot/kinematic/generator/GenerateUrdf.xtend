@@ -381,11 +381,7 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		return gazebo_element
 	}
 	
-	override constructDescription(Robot robot){
-		// Typical steps to create XML file
-		val DocumentBuilderFactory factory_doc_builder = DocumentBuilderFactory.newInstance()
-		val DocumentBuilder doc_builder = factory_doc_builder.newDocumentBuilder
-		val Document doc = doc_builder.newDocument
+	override constructDescription(Document doc, Robot robot){
 		// Root element
 		val Element root_element = doc.createElement("robot")
 		root_element.setAttribute("name", robot.name)
