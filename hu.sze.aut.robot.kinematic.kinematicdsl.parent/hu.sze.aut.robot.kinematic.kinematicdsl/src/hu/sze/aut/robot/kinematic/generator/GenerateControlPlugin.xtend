@@ -38,9 +38,12 @@ class GenerateControlPlugin {
 		for (_t: robot.templateinstantiation.filter[!(it.kinematicmodule instanceof Robot)]){
 			for (_j: _t.kinematicmodule.joint)
 			{
-				val Joint j = EcoreUtil.copy(_j)
-				j.name = _t.name + "_" + j.name
-				controlled_joints.add(j)
+				if (_j.jointcontrol!==null)
+				{
+					val Joint j = EcoreUtil.copy(_j)
+					j.name = _t.name + "_" + j.name
+					controlled_joints.add(j)
+				}
 			}
 		}
 		
