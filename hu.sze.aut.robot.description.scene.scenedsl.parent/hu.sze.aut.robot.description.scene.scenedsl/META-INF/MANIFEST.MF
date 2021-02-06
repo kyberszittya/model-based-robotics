@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: hu.sze.aut.robot.description.scene.scenedsl
+Bundle-ManifestVersion: 2
+Bundle-Name: hu.sze.aut.robot.description.scene.scenedsl
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: hu.sze.aut.robot.description.scene.scenedsl; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: hu.sze.aut.robot.description.scene,
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: hu.sze.aut.robot.description.scene.validation,
+ hu.sze.aut.robot.description.scene,
+ hu.sze.aut.robot.description.scene.parser.antlr,
+ hu.sze.aut.robot.description.scene.scoping,
+ hu.sze.aut.robot.description.scene.parser.antlr.internal,
+ hu.sze.aut.robot.description.scene.services,
+ hu.sze.aut.robot.description.scene.generator,
+ hu.sze.aut.robot.description.scene.formatting2,
+ hu.sze.aut.robot.description.scene.serializer
+Import-Package: org.apache.log4j

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/hu.sze.aut.robot.description.scene/src-gen" creationIcons="false"
+    editDirectory="/hu.sze.aut.robot.description.scene.edit/src-gen" editorDirectory="/hu.sze.aut.robot.description.scene.editor/src-gen"
+    modelPluginID="hu.sze.aut.robot.description.scene" modelName="Scene" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>scene.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Scene" basePackage="hu.sze.aut.robot.description" disposableProviderFactory="true"
+      ecorePackage="scene.ecore#/">
+    <genClasses ecoreClass="scene.ecore#//Scene">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scene.ecore#//Scene/model"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scene.ecore#//Model/placement"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//InternalModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scene.ecore#//InternalModel/physicparameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scene.ecore#//InternalModel/material"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//ExternalModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//ExternalModel/path"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//PhysicParameters">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//PhysicParameters/mass"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//UnitModel"/>
+    <genClasses ecoreClass="scene.ecore#//RootElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//RootElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Sphere">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Sphere/radius"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Box">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Box/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Box/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Box/depth"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//BuildingElement"/>
+    <genClasses ecoreClass="scene.ecore#//Cylinder">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Cylinder/radius"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Cylinder/height"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//DynamicElement"/>
+    <genClasses ecoreClass="scene.ecore#//Floor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Floor/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Floor/depth"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//WallElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//WallElement/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//WallElement/height"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Material"/>
+    <genClasses ecoreClass="scene.ecore#//Color">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Color/red"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Color/green"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Color/blue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Color/alpha"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Texture">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Texture/path"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Placement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scene.ecore#//Placement/position"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scene.ecore#//Placement/rotation"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Vec3">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Vec3/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Vec3/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Vec3/z"/>
+    </genClasses>
+    <genClasses ecoreClass="scene.ecore#//Rotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Rotation/roll"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Rotation/pitch"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scene.ecore#//Rotation/yaw"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

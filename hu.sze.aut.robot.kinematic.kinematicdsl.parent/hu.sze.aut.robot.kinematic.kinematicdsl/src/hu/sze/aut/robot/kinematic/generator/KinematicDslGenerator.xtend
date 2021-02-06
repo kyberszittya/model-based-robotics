@@ -164,7 +164,8 @@ class KinematicDslGenerator extends AbstractGenerator {
 			
 			}
 			// Compile control plugin
-			
+			// Compile launch files
+			fsa.generateFile('''«robot.name».robotstate.launch.py''', GenerateRos2.generateRobotStatePublisher(robot))
 		}
 	}
 }
