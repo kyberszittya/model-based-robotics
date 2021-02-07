@@ -134,9 +134,15 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		if (inertia.pose !== null)
 		{
 			val Element origin_element = doc.createElement("origin")
-			origin_element.setAttribute("xyz", '''«inertia.pose.position.x» «inertia.pose.position.y» «inertia.pose.position.z»''')
-			origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(inertia.pose.rotation.roll)
-				» «UtilityMath.degToRad(inertia.pose.rotation.pitch)» «UtilityMath.degToRad(inertia.pose.rotation.yaw)»''')
+			if (inertia.pose.position !== null)
+			{
+				origin_element.setAttribute("xyz", '''«inertia.pose.position.x» «inertia.pose.position.y» «inertia.pose.position.z»''')
+			}
+			if (inertia.pose.rotation !== null)
+			{
+				origin_element.setAttribute("rpy", '''«UtilityMath.degToRad(inertia.pose.rotation.roll)
+					» «UtilityMath.degToRad(inertia.pose.rotation.pitch)» «UtilityMath.degToRad(inertia.pose.rotation.yaw)»''')
+			}
 			element.appendChild(origin_element)
 		}
 		return element

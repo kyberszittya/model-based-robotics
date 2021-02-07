@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.DocumentBuilder
 import org.w3c.dom.Document
 import org.w3c.dom.Element
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 
 class LinkNode{
 	@Accessors(PUBLIC_GETTER, PRIVATE_SETTER) Link link
@@ -38,6 +39,18 @@ class LinkNode{
 
 class GenerateStaticTfLaunch {
 	
+	def static generatePoseArguments(Pose pose){
+		if (pose.rotation !== null && pose.position !== null){
+			return '''«pose.position.x»', '«pose.position.y»', '«pose.position.z»','«
+				            	UtilityMath.degToRad(pose.rotation.roll)»', '«
+				            	UtilityMath.degToRad(pose.rotation.pitch)»', '«
+				            	UtilityMath.degToRad(pose.rotation.yaw)»'''
+		}
+		else if (pose.position !== null){
+			return '''«pose.position.x»', '«pose.position.y»', '«pose.position.z»','«
+				            	0.0»', '«0.0»', '«0.0»'''
+		}
+	}	
 	
 	def static generateTfLaunch(Set<Joint> joints)'''
 	import launch
@@ -56,10 +69,7 @@ class GenerateStaticTfLaunch {
 	        launch_ros.actions.Node(
 	            package='tf2_ros', node_executable='static_transform_publisher', 
 	            output='screen',
-	            arguments=['«j.pose.position.x»', '«j.pose.position.y»', '«j.pose.position.z»','«
-	            	UtilityMath.degToRad(j.pose.rotation.roll)»', '«
-	            	UtilityMath.degToRad(j.pose.rotation.pitch)»', '«
-	            	UtilityMath.degToRad(j.pose.rotation.yaw)»', '«j.parent.name»', '«j.child.name»'],
+	            arguments=['«generatePoseArguments(j.pose)»', '«j.parent.name»', '«j.child.name»'],
 	            node_name=[launch.substitutions.LaunchConfiguration('node_prefix'), 'broadcast_«j.name»'])
 	        «ENDFOR»          
 	    ])
