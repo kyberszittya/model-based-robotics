@@ -66,7 +66,7 @@ class KinematicDslGenerator extends AbstractGenerator {
 			new_joint.parent.name = '''«module.name.toLowerCase»_«j.parent.name.toLowerCase»'''
 			new_joint.child = link_map.get(j.child.name)
 			new_joint.child.name = '''«module.name.toLowerCase»_«j.child.name.toLowerCase»'''
-			if (module.negate){
+			if (module.invert){
 				new_joint.axis.ax = -1.0*j.axis.ax
 				new_joint.axis.ay = -1.0*j.axis.ay
 				new_joint.axis.az = -1.0*j.axis.az 

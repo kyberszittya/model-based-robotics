@@ -138,7 +138,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pose" eType="#//Pose" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="#//Link" eOpposite="#//Link/templateinstantiation"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="negate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="invert" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RootElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -203,7 +203,6 @@
     <eLiterals name="RGB"/>
     <eLiterals name="Depth" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Imu" eSuperTypes="#//Sensor"/>
   <eClassifiers xsi:type="ecore:EClass" name="ControlModel" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="DifferentialRobotModel" eSuperTypes="#//ControlModel">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="left_joint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -236,4 +235,6 @@
     <eLiterals name="Velocity" value="1"/>
     <eLiterals name="Effort" value="2"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GpsSensor" eSuperTypes="#//Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImuSensor" eSuperTypes="#//Sensor"/>
 </ecore:EPackage>

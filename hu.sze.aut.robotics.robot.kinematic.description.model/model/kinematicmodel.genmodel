@@ -122,7 +122,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TemplateInstantiation/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TemplateInstantiation/pose"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//TemplateInstantiation/link"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TemplateInstantiation/negate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//TemplateInstantiation/invert"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//RootElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//RootElement/name"/>
@@ -172,7 +172,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//CameraObjective/clip_far"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//CameraObjective/offset"/>
     </genClasses>
-    <genClasses ecoreClass="kinematicmodel.ecore#//Imu"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//ControlModel"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//DifferentialRobotModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//DifferentialRobotModel/left_joint"/>
@@ -200,5 +199,7 @@
     <genClasses ecoreClass="kinematicmodel.ecore#//JointControl">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//JointControl/type"/>
     </genClasses>
+    <genClasses ecoreClass="kinematicmodel.ecore#//GpsSensor"/>
+    <genClasses ecoreClass="kinematicmodel.ecore#//ImuSensor"/>
   </genPackages>
 </genmodel:GenModel>

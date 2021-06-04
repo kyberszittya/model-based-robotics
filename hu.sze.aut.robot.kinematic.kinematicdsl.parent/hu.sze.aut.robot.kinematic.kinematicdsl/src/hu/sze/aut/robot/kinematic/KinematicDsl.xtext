@@ -97,7 +97,6 @@ CameraObjective returns CameraObjective:
 	'objective' name=EString  'offset' offset=Pose 'fov' fov=EDouble 'clip' '{' 'near' clip_near=EDouble 'far' clip_far=EDouble '}' 'image' '{' image_width=EInt 'x' image_height=EInt '}'
 ;
 
-
 Scanner returns LaserScanner:
 	{LaserScanner}
 	'scanner' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString]'(' 'ns' namespace=EString 'topic' topic_name=EString ')'
@@ -106,6 +105,22 @@ Scanner returns LaserScanner:
 		'range' range=RangeDefinition
 	'}'
 ;
+
+
+GpsSensor returns GpsSensor:
+	{GpsSensor}
+	'gps' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString]'(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	'{'	
+	'}';
+
+ImuSensor returns ImuSensor:
+	{ImuSensor}
+	'imu' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString] '(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	'{'
+	'}'
+;
+
+
 
 KinematicModule returns KinematicModule:
 	KinematicModule_Impl | Robot;
@@ -150,7 +165,7 @@ Joint_IMPL returns Joint:
 	{Joint}
 	(jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
 	'{'	
-		(axis=Axis)?	
+		(axis=Axis)?
 		('pose' pose=Pose)?
 		(jointcontrol=JointControl)?
 		('jointconstraints' jointconstraints=JointConstraints)?
@@ -177,7 +192,7 @@ enum JointControlType returns JointControlType:
 
 TemplateInstantiation returns TemplateInstantiation:
 	{TemplateInstantiation}
-	(negate?='mirror')? 'instantiate' (kinematicmodule=[KinematicModule|EString])? 'as' name=EString 'at' pose=Pose 'from' link=[Link|EString];
+	(invert?='inv')? 'place' link=[Link|EString] '->' name=EString'('(kinematicmodule=[KinematicModule|EString])')' ':' pose=Pose;
 
 Pose returns Pose:
 	{Pose}
@@ -226,19 +241,21 @@ Visual returns Visual:
 
 Rotation returns Rotation:
 	{Rotation}
-	'rotation''{'
-	('roll' roll=EDouble)?
-	('pitch' pitch=EDouble)?
-	('yaw' yaw=EDouble)?
+	'rpy'
+	'{'
+	(roll=EDouble)';'
+	(pitch=EDouble)';'
+	(yaw=EDouble)?
 	'}'
 	;
 
 Position returns Position:
 	{Position}
-	'position''{'
-	('x' x=EDouble)?
-	('y' y=EDouble)?
-	('z' z=EDouble)?
+	'xyz'
+	'{'
+	(x=EDouble)';'
+	(y=EDouble)';'
+	(z=EDouble)
 	'}'
 	;
 
