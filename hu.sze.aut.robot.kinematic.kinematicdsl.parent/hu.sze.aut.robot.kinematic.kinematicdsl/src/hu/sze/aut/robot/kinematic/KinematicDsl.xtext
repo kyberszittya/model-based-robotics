@@ -11,16 +11,26 @@ RootElement returns RootElement:
 
 
 
+KinematicModule_Impl returns KinematicModule:
+	{KinematicModule}
+	'module' name=EString
+	'{'
+		(link+=Link (link+=Link)*)?
+		('root' root_element=[Link|EString])
+		(joint+=Joint (joint+=Joint)* )?
+		(sensor+=Sensor (sensor+=Sensor)*)?
+		
+	'}';
 
 Robot returns Robot:
 	{Robot}
-	'robot'	name=EString 'in' description_package=EString 'format' (description_format+=EString(',' description_format+=EString)*)
+	'robot'	description_package=EString'::'name=EString  'format' (description_format+=EString(',' description_format+=EString)*)
 	'{'
 		(link+=Link (link+=Link)* )?
+		('root' root_element=[Link|EString])
 		(joint+=Joint (joint+=Joint)* )?
 		(sensor+=Sensor (sensor+=Sensor)*)?
 		(templateinstantiation+=TemplateInstantiation ( templateinstantiation+=TemplateInstantiation)* )?
-		('root' root_element=[Link|EString])
 		('controlmodel' controlmodel=ControlModel)?
 	'}';
 
@@ -41,26 +51,16 @@ CustomControlModel returns CustomControlModel:
 ;
 
 
-KinematicModule_Impl returns KinematicModule:
-	{KinematicModule}
-	'kinematicmodule'
-	name=EString
-	'{'
-		(link+=Link (link+=Link)*)?
-		(joint+=Joint (joint+=Joint)* )?
-		(sensor+=Sensor (sensor+=Sensor)*)?
-		('root' root_element=[Link|EString])
-	'}';
 
 
 Sensor returns Sensor:
-	Lidar | Scanner | Camera 
+	Lidar | Scanner | Camera | GpsSensor | ImuSensor
 ;
 
 
 Lidar returns Lidar:
 	{Lidar}
-	'lidar' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString] '(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	parent=[Link|EString] '->' 'lidar' namespace=EString '::' name=EString  '(' topic_name=EString ':' freq=EDouble ')'
 	'{'
 		'horizontal' horizontal=BeamDefinition
 		'vertical' vertical=BeamDefinition
@@ -70,22 +70,18 @@ Lidar returns Lidar:
 
 RangeDefinition returns RangeDefinition:
 	{RangeDefinition}
-	'min' min_range=EDouble
-	'max' max_range=EDouble 
+	'[' min_range=EDouble ',' max_range=EDouble ']' 
 ;
 
 BeamDefinition returns BeamBlockDefinition:
 	{BeamBlockDefinition}
-	'min' min_angle=EDouble
-	'max' max_angle=EDouble
-	'resolution' resolution=EDouble
-	'samples' samples=EInt
+	'[' min_angle=EDouble ',' max_angle=EDouble ']' ':' '[' resolution=EDouble ':' samples=EInt ']'
 ;
 
 
 Camera returns Camera:
 	{Camera}
-	'camera' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString]'(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	parent=[Link|EString] '->' 'camera' namespace=EString '::' name=EString  '(' topic_name=EString ':' freq=EDouble ')' 
 	'{'
 		cameraobjective+=CameraObjective
 		(cameraobjective+=CameraObjective)*
@@ -94,12 +90,12 @@ Camera returns Camera:
 
 CameraObjective returns CameraObjective:
 	{CameraObjective}
-	'objective' name=EString  'offset' offset=Pose 'fov' fov=EDouble 'clip' '{' 'near' clip_near=EDouble 'far' clip_far=EDouble '}' 'image' '{' image_width=EInt 'x' image_height=EInt '}'
+	'objective' name=EString  'fov' fov=EDouble 'clipping' '[' clip_near=EDouble ',' clip_far=EDouble ']' 'image' '[' image_width=EInt ',' image_height=EInt ']' 'at' offset=Pose 
 ;
 
 Scanner returns LaserScanner:
 	{LaserScanner}
-	'scanner' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString]'(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	parent=[Link|EString] '->' 'scanner' namespace=EString '::' name=EString '(' topic_name=EString ':' freq=EDouble ')'
 	'{'
 		'horizontal' horizontal=BeamDefinition
 		'range' range=RangeDefinition
@@ -109,13 +105,13 @@ Scanner returns LaserScanner:
 
 GpsSensor returns GpsSensor:
 	{GpsSensor}
-	'gps' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString]'(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	parent=[Link|EString] '->' 'gps' namespace=EString '::' name=EString  '(' topic_name=EString ':' 'hz' freq=EDouble ')' 
 	'{'	
 	'}';
 
 ImuSensor returns ImuSensor:
 	{ImuSensor}
-	'imu' name=EString 'freq' freq=EDouble 'at' parent=[Link|EString] '(' 'ns' namespace=EString 'topic' topic_name=EString ')'
+	parent=[Link|EString] '->' 'imu' namespace=EString  '::'name=EString '(' topic_name=EString ':' 'hz' freq=EDouble ')'
 	'{'
 	'}'
 ;
@@ -135,25 +131,29 @@ EString returns ecore::EString:
 
 Link returns Link:
 	{Link}
-	'link'
-	name=EString
-	'{'
-		('pose' pose=Pose)?
+	'link' name=EString ('at' pose=Pose)?
+	'{'		
 		(inertia+=Inertia (  inertia+=Inertia)* )?
 		(collision+=Collision ( collision+=Collision)* )?
 		(visual+=Visual ( visual+=Visual)* )?
+		/*
+		('friction'
+		'{'		
 		(translationalfriction=TransationalFriction)?
 		(torsionalfriction=TorsionalFriction)?
+		'}')?
+		* 
+		*/
 	'}';
 	
 TransationalFriction returns TranslationalFriction:
 	{TranslationalFriction} 
-	'transationalfriction' 'mu' mu=EDouble 'mu2' mu2=EDouble  ('direction' axis=Axis)?
+	'translational' '['mu=EDouble ',' mu2=EDouble']' (axis=Axis)?
 ;
 
 TorsionalFriction returns TorsionalFriction:
 	{TorsionalFriction}
-	'torsionalfriction' 'coeff' coeffictient=EDouble 'patch_radius' patch_radius=EDouble
+	'torsional' '[' coeffictient=EDouble ',''r' ':=' patch_radius=EDouble ']'
 ;
 
 
@@ -163,23 +163,19 @@ Joint returns Joint:
 
 Joint_IMPL returns Joint:
 	{Joint}
-	(jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
-	'{'	
-		(axis=Axis)?
-		('pose' pose=Pose)?
+	(parent=[Link|EString])?'->'(child=[Link|EString])? (jointtype=JointType)  ':=' name=EString ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?  ('to' pose=Pose)? (axis=Axis)?
+	'{'		
 		(jointcontrol=JointControl)?
-		('jointconstraints' jointconstraints=JointConstraints)?
+		('constr' jointconstraints=JointConstraints)?
 	'}';
 	
 SpringJoint returns SpringJoint:
 	{SpringJoint}
-	(jointtype=JointType) 'joint' name=EString ':' (parent=[Link|EString])?'->'(child=[Link|EString])? ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?
+	(parent=[Link|EString])?'->'(child=[Link|EString])? (jointtype=JointType)  ':=' name=EString ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?  ('to' pose=Pose)? (axis=Axis)?
 	'{'	
-		'spring' '{' 'stiffness' stiffness=EDouble 'pos_reference' pos_reference=EDouble  'limits' '(' 'stiffness'limit_stiffness=EDouble 'reference' limit_reference=EDouble ')''}'
-		(axis=Axis)?	
-		('pose' pose=Pose)?
 		(jointcontrol=JointControl)?
-		('jointconstraints' jointconstraints=JointConstraints)?
+		('constr' jointconstraints=JointConstraints)?
+		'spring' ':' 'stiffness' '['stiffness=EDouble':' limit_stiffness=EDouble']' 'pos' '['pos_reference=EDouble  ':' limit_reference=EDouble ']'
 	'}';
 	
 JointControl returns JointControl:
@@ -192,29 +188,36 @@ enum JointControlType returns JointControlType:
 
 TemplateInstantiation returns TemplateInstantiation:
 	{TemplateInstantiation}
-	(invert?='inv')? 'place' link=[Link|EString] '->' name=EString'('(kinematicmodule=[KinematicModule|EString])')' ':' pose=Pose;
+	(invert?='inv')? 'place' link=[Link|EString] '->' name=EString'('(kinematicmodule=[KinematicModule|EString])')' 'at' pose=Pose;
 
 Pose returns Pose:
 	{Pose}
-	'{'
-		(position=Position)?
-		(rotation=Rotation)?		
-	'}';
+	    '['
+		(position=Position)
+		(';'rotation=Rotation)?
+		']'		
+	;
 
 Inertia returns Inertia:
 	{Inertia}
-	'inertia' 'mass' mass=EDouble (inertiamatrix=InertiaMatrix)? ('origin' pose=Pose)?;
+	'inertia' 'mass' mass=EDouble (inertiamatrix=InertiaMatrix)? ('coi' pose=Pose)?;
 	
 InertiaMatrix returns InertiaMatrix:
 	{InertiaMatrix}
-	'{'
-		('ixx' ixx=EDouble)?
-		('ixy' ixy=EDouble)?
-		('iyy' iyy=EDouble)?
-		('ixz' ixz=EDouble)?
-		('iyz' iyz=EDouble)?
-		('izz' izz=EDouble)?
-	'}'
+	'imtx'
+	'[' 
+		(ixx=EDouble ',')
+		(iyy=EDouble ',')
+		(izz=EDouble)		
+		(
+			';'
+		(ixy=EDouble ',')	
+		(ixz=EDouble ',')
+		(iyz=EDouble)
+		
+		)?
+	']'
+	
 ;
 
 EDouble returns ecore::EDouble:
@@ -225,68 +228,56 @@ EInt returns ecore::EInt:
 
 Collision returns Collision:
 	{Collision}
-	'collision'
+	'collision' ('(' 'at' offset=Pose ')')?
 	'{'
-		('offset' offset=Pose)?
 		(geometrydescription=GeometryDescription)?
 	'}';
 
 Visual returns Visual:
 	{Visual}
-	'visual'
+	'visual' ('(' 'at' offset=Pose ')')?
 	'{'
-		('offset' offset=Pose)?
 		(geometrydescription=GeometryDescription)?
 	'}';
 
 Rotation returns Rotation:
 	{Rotation}
-	'rpy'
-	'{'
-	(roll=EDouble)';'
-	(pitch=EDouble)';'
-	(yaw=EDouble)?
-	'}'
+	(roll=EDouble ',')
+	(pitch=EDouble ',')
+	(yaw=EDouble)
 	;
 
 Position returns Position:
 	{Position}
-	'xyz'
-	'{'
-	(x=EDouble)';'
-	(y=EDouble)';'
+	(x=EDouble',')
+	(y=EDouble',')
 	(z=EDouble)
-	'}'
 	;
 
 Mesh returns Mesh:
 	{Mesh}
-	'mesh' 'of' filepath=EString ('scale' sx=EDouble',' sy=EDouble',' sz=EDouble)?
+	'mesh' '('filepath=EString ('['sx=EDouble',' sy=EDouble',' sz=EDouble ']')? ')'
 	;
 
 Cube returns Cube:
 	{Cube}
-	'cube'	('sx' sx=EDouble)?	('sy' sy=EDouble)?	('sz' sz=EDouble)?;
+	'cube'	'[' sx=EDouble ',' sy=EDouble ',' sz=EDouble ']';
 
 Cylinder returns Cylinder:
 	{Cylinder}
-	'cylinder'	('radius' radius=EDouble)?	('height' height=EDouble)?;
+	'cylinder'	'['( radius=EDouble ',')	(height=EDouble) ']';
 
 Sphere returns Sphere:
 	{Sphere}
-	'sphere'('radius' radius=EDouble)?;
+	'sphere'(':' radius=EDouble)?;
 
 JointConstraints returns JointConstraints:
 	{JointConstraints}
-	'constraints'
-	'{'
-		('min_limit' min_limit=EDouble)?
-		('max_limit' max_limit=EDouble)?
-	'}';
+	'limits'('[' min_limit=EDouble)?(max_limit=EDouble ']')? ;
 
 Axis returns Axis:
 	{Axis}
-	'axis'	ax=EDouble','ay=EDouble','az=EDouble;
+	'ax' '['	ax=EDouble','ay=EDouble','az=EDouble ']';
 
 enum JointType returns JointType:
 				Translational = 'translational' | Rotational = 'rotational' | Continuous = 'continuous' | Fixed = 'fixed';
