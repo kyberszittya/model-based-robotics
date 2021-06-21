@@ -21,6 +21,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Join
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Robot
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ControlModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.GpsSensor
 
 interface ModelGenerator {
 	// Geometry basics
@@ -38,6 +39,7 @@ interface ModelGenerator {
 	abstract def Element createCameraPlugin(Document doc, Camera camera);
 	abstract def Element createCameraObjectiveElement(Document doc, CameraObjective camera);
 	abstract def Element createImuPluginElement(Document doc, Imu imu);
+	abstract def Element createGpsPluginElement(Document doc, GpsSensor gps)
 	abstract def Element createSensorElement(Document doc, Sensor sensor)
 	// Friction element
 	abstract def Element createLinkTranslationalFriction(Document doc, TranslationalFriction friction)

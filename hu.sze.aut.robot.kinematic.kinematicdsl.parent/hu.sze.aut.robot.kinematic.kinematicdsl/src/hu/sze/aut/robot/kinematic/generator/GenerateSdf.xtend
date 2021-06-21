@@ -32,6 +32,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Diff
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Lidar
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 import org.eclipse.xtend.lib.annotations.Accessors
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.GpsSensor
 
 class GenerateSdf extends AbstractGazeboGenerator {
 	@Accessors(PUBLIC_GETTER) Element model_element; 
@@ -242,7 +243,6 @@ class GenerateSdf extends AbstractGazeboGenerator {
 	
 	override createSensorElement(Document doc, Sensor sensor) {
 		val Element sensor_element = doc.createElement("sensor")
-		sensor_element.setAttribute("type", "ray")
 		sensor_element.setAttribute("name", "sensor_"+sensor.name)
 		// Update freq rate
 		val freq_element = doc.createElement("update_rate")
@@ -276,6 +276,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		}
 		// Setup laser scanner and LiDAR
 		else if (sensor instanceof LaserScanner){
+			sensor_element.setAttribute("type", "ray")		
 			val ray_element = doc.createElement("ray")
 			val scan_element = doc.createElement("scan")
 			scan_element.appendChild(createBeamBlockDefinition(doc, sensor.horizontal, "horizontal"))
@@ -287,13 +288,32 @@ class GenerateSdf extends AbstractGazeboGenerator {
 			ray_element.appendChild(scan_element)
 			ray_element.appendChild(createRangeDefinition(doc, sensor.range))
 			sensor_element.appendChild(createRangePluginElement(doc, sensor))
-			sensor_element.appendChild(ray_element)		
+			sensor_element.appendChild(ray_element)
 		}
 		// Setup IMU
 		else if (sensor instanceof Imu){
 			sensor_element.setAttribute("type", "imu")
-			
+			// TODO
+			//val imu_element = doc.createElement("imu");			
+			// Add to main tree
+			sensor_element.appendChild(createImuPluginElement(doc, sensor))
 		}
+		// Setup GPS
+		else if (sensor instanceof GpsSensor){
+			sensor_element.setAttribute("type", "gps")
+			// TODO 
+			val gps_element = doc.createElement("gps");
+			// Position sensing
+			val position_sensing_element = doc.createElement("position_sensing");
+			// Horizontal-vertical nosie model
+			gps_element.appendChild(position_sensing_element)		
+			//
+			// Add to main tree
+			sensor_element.appendChild(gps_element);
+			sensor_element.appendChild(createGpsPluginElement(doc, sensor))
+		}
+		
+		
 		return sensor_element
 	}
 	

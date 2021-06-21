@@ -9,6 +9,8 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Came
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Lidar
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.CameraObjective
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Imu
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.GpsSensor
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Sensor
 
 abstract class AbstractGazeboGenerator implements ModelGenerator {
 	
@@ -133,11 +135,37 @@ abstract class AbstractGazeboGenerator implements ModelGenerator {
 		return camera_element
 	}
 	
+	def final Element createRos2Definitons(Document doc, Sensor sensor)
+	{
+		//
+		val Element ros_element = doc.createElement("ros");	
+		
+		// Set ROS attributes
+		val Element el_namespace = doc.createElement("namespace")
+		el_namespace.textContent = sensor.namespace
+		ros_element.appendChild(el_namespace)
+		val Element el_topic_remap = doc.createElement("argument")
+		el_topic_remap.textContent = '''~/out:=«sensor.topic_name»'''
+		ros_element.appendChild(el_topic_remap)
+		return ros_element
+	}
+	
 	override final createImuPluginElement(Document doc, Imu imu){
 		val Element plugin_element = doc.createElement("plugin")
 		plugin_element.setAttribute("name", imu.name)
 		plugin_element.setAttribute("filename", "libgazebo_ros_imu_sensor.so")
-		
+		plugin_element.appendChild(createRos2Definitons(doc, imu))
 		return plugin_element
 	}
+	
+	override final createGpsPluginElement(Document doc, GpsSensor sensor)
+	{
+		val Element plugin_element = doc.createElement("plugin")
+		plugin_element.setAttribute("name", sensor.name);
+		plugin_element.setAttribute("filename", "libgazebo_ros_gps_sensor.so")
+		plugin_element.appendChild(createRos2Definitons(doc, sensor))
+		// Return with wrapped up element
+		return plugin_element
+	}
+	
 }
