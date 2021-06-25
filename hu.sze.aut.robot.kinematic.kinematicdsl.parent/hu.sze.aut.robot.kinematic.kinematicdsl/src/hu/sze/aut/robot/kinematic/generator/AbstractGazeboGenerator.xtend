@@ -8,9 +8,9 @@ import org.w3c.dom.Element
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Camera
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Lidar
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.CameraObjective
-import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Imu
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.GpsSensor
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Sensor
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ImuSensor
 
 abstract class AbstractGazeboGenerator implements ModelGenerator {
 	
@@ -150,7 +150,7 @@ abstract class AbstractGazeboGenerator implements ModelGenerator {
 		return ros_element
 	}
 	
-	override final createImuPluginElement(Document doc, Imu imu){
+	override final createImuPluginElement(Document doc, ImuSensor imu){
 		val Element plugin_element = doc.createElement("plugin")
 		plugin_element.setAttribute("name", imu.name)
 		plugin_element.setAttribute("filename", "libgazebo_ros_imu_sensor.so")

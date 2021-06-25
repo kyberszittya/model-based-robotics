@@ -206,7 +206,6 @@ class GenerateUrdf extends AbstractGazeboGenerator {
 		// Setup IMU
 		else if (sensor instanceof Imu){
 			sensor_element.setAttribute("type", "imu")
-			
 		}
 		gazebo_element.appendChild(sensor_element)
 		return gazebo_element

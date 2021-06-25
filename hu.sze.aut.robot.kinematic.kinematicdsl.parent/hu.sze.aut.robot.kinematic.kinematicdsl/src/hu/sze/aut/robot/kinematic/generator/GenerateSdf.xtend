@@ -33,6 +33,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Lida
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 import org.eclipse.xtend.lib.annotations.Accessors
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.GpsSensor
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ImuSensor
 
 class GenerateSdf extends AbstractGazeboGenerator {
 	@Accessors(PUBLIC_GETTER) Element model_element; 
@@ -291,7 +292,8 @@ class GenerateSdf extends AbstractGazeboGenerator {
 			sensor_element.appendChild(ray_element)
 		}
 		// Setup IMU
-		else if (sensor instanceof Imu){
+		else if (sensor instanceof ImuSensor){
+			
 			sensor_element.setAttribute("type", "imu")
 			// TODO
 			//val imu_element = doc.createElement("imu");			
@@ -305,7 +307,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 			val gps_element = doc.createElement("gps");
 			// Position sensing
 			val position_sensing_element = doc.createElement("position_sensing");
-			// Horizontal-vertical nosie model
+			// Horizontal-vertical noise model
 			gps_element.appendChild(position_sensing_element)		
 			//
 			// Add to main tree
@@ -334,18 +336,7 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		link_element.setAttribute("name", link.name)
 		var Element pose_element = null;
 		if (link.pose !== null)
-		{
-			/*
-			pose_element = doc.createElement("pose")
-			pose_element.appendChild(doc.createTextNode('''«link.pose.position.x» «
-				link.pose.position.y» «
-				link.pose.position.z» «
-				UtilityMath.degToRad(link.pose.rotation.roll)» «
-				UtilityMath.degToRad(link.pose.rotation.pitch)» «
-				UtilityMath.degToRad(link.pose.rotation.yaw)»'''
-			))
-			*  
-			*/
+		{			
 			pose_element = generatePoseElement(doc, link.pose)
 		}
 		if (link.parent_joint !== null)
@@ -448,16 +439,6 @@ class GenerateSdf extends AbstractGazeboGenerator {
 		dynamic_element.setAttribute("friction", jnt.friction.toString)
 		jnt_element.appendChild(dynamic_element)
 		// Origin set up
-		/*
-		val Element pose_element = doc.createElement("pose")
-		pose_element.textContent = '''«jnt.pose.position.x» «
-	  								   jnt.pose.position.y» «
-									   jnt.pose.position.z» «
-									   UtilityMath.degToRad(jnt.pose.rotation.roll)» «
-							 		   UtilityMath.degToRad(jnt.pose.rotation.pitch)» «
-    					 			   UtilityMath.degToRad(jnt.pose.rotation.yaw)»'''
-    					 			   *
-    					 			   */
     	val Element pose_element = generatePoseElement(doc, jnt.pose)
     	pose_element.setAttribute("relative_to", jnt.parent.name)	
 		jnt_element.appendChild(pose_element)

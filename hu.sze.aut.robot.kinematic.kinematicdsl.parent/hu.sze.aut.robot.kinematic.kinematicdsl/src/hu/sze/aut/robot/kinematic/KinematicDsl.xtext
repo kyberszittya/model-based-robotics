@@ -163,7 +163,7 @@ Joint returns Joint:
 
 Joint_IMPL returns Joint:
 	{Joint}
-	(parent=[Link|EString])?'->'(child=[Link|EString])? (jointtype=JointType)  ':=' name=EString ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?  ('to' pose=Pose)? (axis=Axis)?
+	(parent=[Link|EString])?'->'(child=[Link|EString])? (jointtype=JointType) name=EString ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?  ('to' pose=Pose)? (axis=Axis)?
 	'{'		
 		(jointcontrol=JointControl)?
 		('constr' jointconstraints=JointConstraints)?
@@ -171,7 +171,7 @@ Joint_IMPL returns Joint:
 	
 SpringJoint returns SpringJoint:
 	{SpringJoint}
-	(parent=[Link|EString])?'->'(child=[Link|EString])? (jointtype=JointType)  ':=' name=EString ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?  ('to' pose=Pose)? (axis=Axis)?
+	(parent=[Link|EString])?'->'(child=[Link|EString])? (jointtype=JointType) name=EString ('(' 'damping' damping=EDouble 'friction' friction=EDouble ')')?  ('to' pose=Pose)? (axis=Axis)?
 	'{'	
 		(jointcontrol=JointControl)?
 		('constr' jointconstraints=JointConstraints)?

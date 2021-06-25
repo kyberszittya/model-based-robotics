@@ -12,7 +12,6 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Rang
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.LaserScanner
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Camera
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.CameraObjective
-import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Imu
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Sensor
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TranslationalFriction
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.TorsionalFriction
@@ -22,6 +21,7 @@ import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Robo
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ControlModel
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.Pose
 import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.GpsSensor
+import hu.sze.aut.robotics.robot.kinematic.description.model.kinematicmodel.ImuSensor
 
 interface ModelGenerator {
 	// Geometry basics
@@ -38,7 +38,7 @@ interface ModelGenerator {
 	abstract def Element createRangePluginElement(Document doc, LaserScanner scanner);
 	abstract def Element createCameraPlugin(Document doc, Camera camera);
 	abstract def Element createCameraObjectiveElement(Document doc, CameraObjective camera);
-	abstract def Element createImuPluginElement(Document doc, Imu imu);
+	abstract def Element createImuPluginElement(Document doc, ImuSensor imu);
 	abstract def Element createGpsPluginElement(Document doc, GpsSensor gps)
 	abstract def Element createSensorElement(Document doc, Sensor sensor)
 	// Friction element
