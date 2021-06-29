@@ -151,6 +151,8 @@
         defaultValueLiteral="1.0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="noisemodel" upperBound="-1"
+        eType="#//NoiseModel" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Lidar" eSuperTypes="#//LaserScanner">
     <eStructuralFeatures xsi:type="ecore:EReference" name="vertical" eType="#//BeamBlockDefinition"
@@ -237,4 +239,5 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GpsSensor" eSuperTypes="#//Sensor"/>
   <eClassifiers xsi:type="ecore:EClass" name="ImuSensor" eSuperTypes="#//Sensor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NoiseModel"/>
 </ecore:EPackage>

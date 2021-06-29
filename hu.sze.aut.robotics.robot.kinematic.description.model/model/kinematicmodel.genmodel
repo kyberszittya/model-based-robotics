@@ -133,6 +133,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/freq"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/topic_name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute kinematicmodel.ecore#//Sensor/namespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Sensor/noisemodel"/>
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//Lidar">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference kinematicmodel.ecore#//Lidar/vertical"/>
@@ -201,5 +202,6 @@
     </genClasses>
     <genClasses ecoreClass="kinematicmodel.ecore#//GpsSensor"/>
     <genClasses ecoreClass="kinematicmodel.ecore#//ImuSensor"/>
+    <genClasses ecoreClass="kinematicmodel.ecore#//NoiseModel"/>
   </genPackages>
 </genmodel:GenModel>
