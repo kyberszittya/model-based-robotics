@@ -86,13 +86,16 @@ class KinematicDslGenerator extends AbstractGenerator {
 		val Robot _r = resource.contents.filter[it instanceof Robot].head as Robot		
 		if (_r!==null){
 			val robot_original = EcoreUtil.copy(_r)
-			var robot = EcoreUtil.copy(_r)
+			val robot = EcoreUtil.copy(_r)
 			
 			val root = robot.root_element
 			// 1. Instantiate and connect templates with a fixed joint
+			/*
 			for (TemplateInstantiation tmpl: root.templateinstantiation){
 				connectTemplateWithJoint(robot, root, tmpl)
 			}
+			*  
+			*/
 			// TODO: search for all template instantiations in all links
 			/*
 			robot.link.forEach[
@@ -102,6 +105,9 @@ class KinematicDslGenerator extends AbstractGenerator {
 				}
 			]
 			*/
+			robot.templateinstantiation.forEach[
+				connectTemplateWithJoint(robot, it.link, it)
+			]
 			// 2. Generate Description formats
 			val TransformerFactory transformerFactory = TransformerFactory.newInstance
 			val Transformer transformer = transformerFactory.newTransformer
